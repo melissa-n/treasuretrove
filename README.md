@@ -20,8 +20,8 @@ simply just for fun using the computer generated
 Discovery mode.
 
 ## How?
-Trove APIs are used for teachers to find
-items and auto-fill information during game
+Trove APIs are used for teachers to find
+items and auto-fill information during game
 creation in Custom mode. Trove APIs (with
 keyword search, year and location tags) are
 also used to place treasures in Discovery
