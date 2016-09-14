@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Treasure Trove</title>
+<script type="text/javascript" src="jquery-1_8_3.js">
+</script>
+
+<script>  
+setTimeout(function(){document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';  
+        },20);    
+</script>
+</head>
+
+<body>
+<div id="div1">
+  <h1>Treasure Trove</h1>
+</div>
+<footer>
+
+
+</footer>
+<div class="container">
+  <div class="menu-grids">
+    <ul>
+      <li>
+          <a>Pick a Year to Begin</a>
+          <input type="datetime" name="Year" id="Year" placeholder="Year">
+          <input type="submit" value="submit" name="SubmitsU" id="SumbitSU">
+      </li>
+      <li>
+        <a href="#" class="tc">Custom Game</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div id="gray"></div>
+<div class="popup" id="popup">
+
+	<div class="top_nav" id='top_nav'>
+		<div align="center">
+			<span>Custom Game</span>
+            <a class="guanbi"></a>
+		</div>
+	</div>
+    
+    <div class="min">
+      <div class="tc_login">
+        <div class="center">
+            <form method="POST" name="form_login" id="fm_login" target="_top">
+                <div align="center">
+                    <!--Add YOUR OWN TREASURE(upload)--> 
+                    <p>Pick a Category: 
+                    <select class="setting-category-selected">
+                      <option value="type" selected="selected">--Category--</option>
+                      <option value="Nature">Nature</option>
+                    </select>
+                    </p>
+                    <p>Number of Treasure:
+                    <select class="setting-NOTreasure-selected">
+                      <option value="type" selected="selected">--Number--</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                    </p>
+                    <p>Number of Extras:
+                    <select class="setting-NOExtra-selected">
+                      <option value="type" selected="selected">--Extras--</option>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="20">20</option>
+                      <option value="25">25</option>
+                      <option value="30">30</option>
+                    </select>
+                    </p>
+                    <p>Time Limit:
+                    <select class="setting-time-selected">
+                      <option value="type" selected="selected">--Min--</option>
+                      <option value="3 min">3 min</option>
+                      <option value="5 min">5 min</option>
+                      <option value="7 min">7 min</option>
+                      <option value="10 min">10 min</option>
+                      <option value="15 min">15 min</option>
+                    </select>
+                    </p>
+                </div>
+              <div align="center">
+						<input type="submit" class="button" value="Play Now!">
+			  </div>
+          </form>
+        </div>
+      </div>
+    </div>      
+</div>
+<div style="height:335px">
+</div>
+<div id="gy"></div>
+<div>
+ <a href="#" class="ac">How to Play?</a>
+ <div class="popfoot" id="popfoot">
+	<div class="ftop_nav" id='fttop_nav'>
+		<div align="center">
+			<span>How to Play?</span>
+            <a class="close"></a>
+		</div>
+	</div>
+    <div class="ftbody">
+      <div class="ac_login">
+        <div class="acenter">
+            <form name="form_detail" id="fm_login" target="_ftop">
+                <div align="left">
+                <!--content-->
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>   
+ </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" src="window_display.js">
+</script>
+
+<script type="text/javascript" src="window_move.js">
+</script>
+  
+  
+
+</body>
+</html>
