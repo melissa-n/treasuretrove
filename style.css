@@ -1,0 +1,179 @@
+@charset "utf-8";
+/* CSS Document */
+
+#div1{text-align:center;
+      font-size:30px;
+	  margin-bottom:10px;
+	  margin-top:10px; 
+}
+
+.container{width:85%;}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.menu-grids{
+	    margin-top: 3em;
+		box-sizing: border-box;
+		height: auto !important;
+		}
+	
+div{font-size:20px;
+	text-align:center;
+	margin:auto;
+	font-family:"Times New Roman", Times, serif;
+	background-color:#FFF;
+}
+
+div ul{list-style-type:none;
+	   width:auto;
+	   height:auto;
+	   padding:auto;
+	   margin:0;
+	   
+	   
+}
+
+div ul li{display:inline-block;
+	      color:#000;
+}
+
+div ul li a,visited{color:#000;
+					display:block;
+					padding:15px 50px;
+					text-decoration:none;
+}
+
+
+
+#gray{width:100%;height:100%;background:rgba(0,0,0,0.3);position:fixed;top:0px;display:none;z-index:99;}
+
+.popup{
+	width:532px; 
+	height:auto;
+	background-color:#fff;
+	position:absolute;
+	z-index:100;
+	border:1px solid #ebeaea;
+	left:400px;
+	top:96px;
+	display:none;
+}
+.popfoot{
+	width:532px; 
+	height:auto;
+	background-color:#fff;
+	position:absolute;
+	z-index:100;
+	border:1px solid #ebeaea;
+	left:400px;
+	top:96px;
+	display:none;
+	}
+	
+.footer-side{
+	width:532px;
+	height:auto;
+}
+
+.guanbi{
+	background-image:url(popup_guanbi.png));
+}
+.close{
+	background-image:url(popup_guanbi.png));
+}
+
+.popup .top_nav{
+	width:532px;
+	height:46px;
+	border-bottom:1px solid #ebeaea;
+	position:relative;
+	cursor:move;
+}
+.popfoot .ftop_nav{
+	width:532px;
+	height:46px;
+	border-bottom:1px solid #ebeaea;
+	position:relative;
+	cursor:move;
+}
+
+.popup .top_nav i{width:35px;height:35px;position:absolute;top:6px;left:8px;display:block; }
+
+
+
+.popup .top_nav span{font:18px/18px 'microsoft yahei';color:#707070;display:block;position:absolute;top:13px;left:50px;}
+
+.popfoot .ftop_nav span{font:18px/18px 'microsoft yahei';color:#707070;display:block;position:absolute;top:13px;left:50px;}
+
+.popfoot .ftop_nav a.close{ width:35px; height: 35px; background:url(popup_guanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
+
+.popup .top_nav a.guanbi { width:35px; height: 35px; background:url(popup_guanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
+
+.popup .top_nav a.guanbi span { display: none;}
+
+.popup .min{width:532px;height:auto;}
+
+#fm_login{width:532px;height:360px;}
+
+#fm_div{{width:532px;height:360px;}}
+
+.tc_login{width:532px;height:380px;}
+
+.tc_login .center{width:532px;height:380px; float:left;}
+
+.tc_login .center h2{width:532px;height:50px;margin:20px 0 20px 0;font-size:30px;color:#666;text-align:center;}
+
+.tc_login .center h3{width:532px;height:50px;margin:20px 0 20px 0;font-size:30px;color:#666;text-align:center;}
+
+.tc_login .center h4{width:532px;height:50px;margin:20px 0 20px 0;font-size:30px;color:#666;text-align:center;}
+
+.tc_login .center h5{width:532px;height:50px;margin:20px 0 20px 0;font-size:30px;color:#666;text-align:center;}
+
+
+
+.tc_login .center .h2 .h3 .h4 .h5{font-size:20px;color:#090;text-align:center;margin:15px 0 0px 0;}
+.tc_login .center a{font:13px/18px 'microsoft yahei';color:#666;float:right;margin:16px 0 0px 6px;}
+.tc_login .center a:hover{color:#06F;text-decoration: underline;}
+.tc_login .center input{
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+    height: 40px;
+    padding:0 0 0 34px;
+	margin:10px 0px 0px 10px;
+    transition: background 0.3s ease-in-out;
+    width: 220px;
+	float:right;
+}
+.tc_login .center input:focus {
+    outline: none;
+    border-color: #019A0D;
+    box-shadow: 0 0 0px #019A0D;
+}
+
+.tc_login .center .button{
+-webkit-appearance: none;
+    background:#36F;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    height: 50px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background 0.3s ease-in-out;
+    width:auto;
+	padding:0 50px 0 50px;
+	font-weight: bold;
+}
+
