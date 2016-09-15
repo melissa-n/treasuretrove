@@ -27,5 +27,3 @@ keyword search, year and location tags) are
 also used to place treasures in Discovery
 mode, and generate city backgrounds.
 
-## Testing
-Clay is testing Git
