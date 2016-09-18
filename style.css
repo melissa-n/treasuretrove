@@ -176,4 +176,30 @@ div ul li a,visited{color:#000;
 	padding:0 50px 0 50px;
 	font-weight: bold;
 }
+/*End game edit */
+h1{
+	letter-spacing: 5px;
+	font-size: 100px;
+	margin: 0;
+}
+#chest{
+	display: block;
+	margin: auto;
+	position: relative;
+	display: center;
+}
+#newgame{
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	font-size: 30px;
+	margin-left: 50px;
+}
+#leaderboard{
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	font-size: 30px;
+	margin-right: 50px;
+}
 
