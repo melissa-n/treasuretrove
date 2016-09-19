@@ -1,0 +1,27 @@
+/** Background image */
+html{
+	
+	background-image: url('images/background.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+
+body{
+	color: #202020;
+	font-family: 'Pompiere', cursive;
+	font-family: 'New Rocker', cursive;
+
+	
+}
+
+#list{
+	background-image: url('images/scroll.png');
+	background-size: cover;
+	padding: 5%;
+
+}
+td {
+    padding: 7%;
+    text-align: left;
+}
