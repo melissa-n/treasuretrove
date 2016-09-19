@@ -19,9 +19,35 @@ body{
 	background-image: url('images/scroll.png');
 	background-size: cover;
 	padding: 5%;
+	display: inline-block;
 
 }
 td {
-    padding: 7%;
+    padding-top: 12%;
+    padding-bottom: 10%;
+    padding-left: 7%;
+    padding-right: 7%;
     text-align: left;
+ 
+}
+
+#imagegrid{
+	background-image: url('Test images/map.jpg');
+	background-size: cover;
+	width: 60%;
+	float: right;
+	padding: 2%;
+	display: inline-block;
+	max-width: 500px;
+
+
+}
+.grid{
+
+	display: inline-block;
+    float: left;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+
 }
