@@ -63,3 +63,19 @@ td {
 	width: 16pt;
 	height: 16pt;
 }
+#newgame{
+	margin-top:3%;
+	display: inline-block;
+	float: left;
+	font-size: 30px;
+	margin-left: 50px;
+	font-family: 'Pompiere', cursive;
+}
+#leaderboard{
+	margin-top:3%; 
+	display: inline-block;
+	float: right;
+	font-size: 30px;
+	margin-right: 50px;
+	font-family: 'Pompiere', cursive;
+}
