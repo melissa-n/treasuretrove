@@ -51,7 +51,7 @@
     var natureTerms = ["Australian Flora", "Australian Fauna", "Environment", "Sustainability", "Natural Resources", "Natural Disasters"];
     var colAusTerms = ["Colonial Australia", "Colonialism", "British Settlement"];
     var techTerms = ["Technology", "Inventions", "Innovation", "Research", "Development"];
-    var nineteenHundredsTerms = ["1900s Australia", "1900s Immigration", "1900s Industrialism", "1900s Development"];
+    var nineteenHundredsTerms = ["1900s Australia", "Immigration", "Industrialism", "Development"];
     var artTerms = ["Australian Flags", "Australian Art", "Aboriginal Art", "Australian Emblems", "Australian Symbols"];
     var mapTerm = "Map of Australia";
 
@@ -90,6 +90,7 @@
       $('#output').empty();
       loadedImages = [];
       found = 0;
+      names = [];
 
       var url = createURL(mapTerm);
       console.log(url);
@@ -108,6 +109,7 @@
         loadedImages = [];
 	      found = 0;
         searchTerms = [];
+        names = [];
 
         $('#output').empty();
         //get input values
@@ -133,6 +135,7 @@
           console.log(url);
           //get the JSON information we need to display the images
           $.getJSON(url, function(data) {
+              console.log(data);
               $.each(data.response.zone[0].records.work, processImages);
   	          waitForFlickr(); // Waits for the flickr images to load
           });
@@ -145,33 +148,39 @@
      */
     function processImages(index, troveItem) {
       var imgUrl = troveItem.identifier[0].value;
+      var imgName = troveItem.title;
       if (imgUrl.indexOf(urlPatterns[0]) >= 0) { // flickr
 		    if (addFlickrItem(imgUrl, troveItem)) {
           found++;
+          names.push(imgName);
         }
       } else if (imgUrl.indexOf(urlPatterns[1]) >= 0) { // nla.gov
         nlaUrl = imgUrl + "/representativeImage?wid=900"; // change ?wid=900 to scale the image
         if ($.inArray(nlaUrl, loadedImages) == -1) { // if not already in loadedImages
 		        found++;
             loadedImages.push(nlaUrl);
+            names.push(imgName);
         }
       } else if (imgUrl.indexOf(urlPatterns[2]) >= 0) { //artsearch
         artUrl = "http://artsearch.nga.gov.au/IMAGES/LRG/" + getQueryVariable("IRN", imgUrl) + ".jpg";
         if ($.inArray(artUrl, loadedImages) == -1) { // if not already in loadedImages
 		        found++;
             loadedImages.push(artUrl);
+            names.push(imgName);
         }
       } else if (imgUrl.indexOf(urlPatterns[3]) >= 0) { //recordsearch
         recordUrl = "http://recordsearch.naa.gov.au/NAAMedia/ShowImage.asp?T=P&S=1&B=" + getQueryVariable("Number", imgUrl);
         if ($.inArray(recordUrl, loadedImages) == -1) { // if not already in loadedImages
             found++;
             loadedImages.push(recordUrl);
+            names.push(imgName);
         }
       } else if (imgUrl.indexOf(urlPatterns[4]) >= 0) { //slsa
         slsaUrl = imgUrl.slice(0, imgUrl.length - 3) + "jpg";
         if ($.inArray(slsaUrl, loadedImages) == -1) { // if not already in loadedImages
             found++;
             loadedImages.push(slsadUrl);
+            names.push(imgName);
         }
       } else { // Could not reliably load image for item
             // UNCOMMENT FOR DEBUG:
@@ -200,17 +209,29 @@
     }
 
     function printImages() {
-      console.log(loadedImages);
 	     // Print out all images
         for (var i in loadedImages) {
             var image = new Image();
+            fullImageName = names[i]
+            if (fullImageName.length > 100) {
+              imageName = fullImageName.slice(0, 97) + "..."
+            } else {
+              imageName = fullImageName;
+            }
             image.src = loadedImages[i];
             image.style.display = "inline-block";
             image.style.width = "48%";
             image.style.margin = "1%";
             image.style.verticalAlign = "top";
 
+            //var divId = "image" + i.toString();
+            //$("#output").append("<div id='" + divId + "'></div>");
+            //$("#" + divId).append(image);
+            //$("#" + divId).append("</br>" + image.src + "</br>");
+
             $("#output").append(image);
+            $("#output").append("</br>" + "Name: " + imageName + "</br>");
+            $("#output").append("</br>" + "Source: " + image.src + "</br>");
         }
     }
 
