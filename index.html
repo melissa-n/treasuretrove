@@ -18,22 +18,25 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
 <div id="div1">
   <h1><centre>Treasure Trove</centre></h1>
 </div>
-<footer>
 
-
-</footer>
 <div class="container">
   <div class="menu-grids">
-    <ul>
-      <li>
-          <a>Pick a Year to Begin</a>
-          <input type="datetime" name="Year" id="Year" placeholder="Year">
-          <input type="submit" value="submit" name="SubmitsU" id="SumbitSU">
-      </li>
-      <li>
-        <a href="#" class="tc">Custom Game</a>
-      </li>
-    </ul>
+    
+      <h2>Pick a Category:
+      <select class="setting-category-selected">
+      <option value="type" selected="selected">--Category--</option>
+      <option value="atiHeritage">Aboriginal and Torres Strait Islander Heritage</option>
+      <option value="nature">Nature</option>
+      <option value="colAus">Colonial Australia</option>
+      <option value="tech">Technology</option>
+      <option value="nineteenHundreds">1900s Australia</option>
+      <option value="art">Art, Symbols and Emblems</option>
+      </select>
+
+      <h2>Or</h2>
+   
+      <a href="#" class="tc"><h2>Create a Custom Game</h2></a>
+    
   </div>
 </div>
 <div id="gray"></div>
@@ -55,7 +58,12 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
                     <p>Pick a Category:
                     <select class="setting-category-selected">
                       <option value="type" selected="selected">--Category--</option>
-                      <option value="Nature">Nature</option>
+                      <option value="atiHeritage">Aboriginal and Torres Strait Islander Heritage</option>
+                      <option value="nature">Nature</option>
+                      <option value="colAus">Colonial Australia</option>
+                      <option value="tech">Technology</option>
+                      <option value="nineteenHundreds">1900s Australia</option>
+                      <option value="art">Art, Symbols and Emblems</option>
                     </select>
                     </p>
                     <p>Number of Treasure:
@@ -100,17 +108,15 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
       </div>
     </div>
 </div>
-<div style="height:335px">
-</div>
-<div id="gy"></div>
+
 <div>
  <a href="#" class="ac">How to Play?</a>
  <div class="popfoot" id="popfoot">
 	<div class="ftop_nav" id='fttop_nav'>
-		<div align="center">
+	
 			<span>How to Play?</span>
             <a class="close"></a>
-		</div>
+
 	</div>
     <div class="ftbody">
       <div class="ac_login">
