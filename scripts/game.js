@@ -16,13 +16,16 @@ $(document).ready(function() {
 
   var query = window.location.search;
   var category = query.substring(query.lastIndexOf("=") + 1);
-  console.log("category: " + category);
+
+  generateMapBackground();
 
   var loadedImages = [];
   var found = 0;
   var names = [];
 
   imageData = [];
+  mapData = [];
+  treasureData = [];
 
   var searchTerms = [];
 
@@ -59,6 +62,8 @@ $(document).ready(function() {
         }
     });
   }
+
+  playGame();
 
   ////////////////////////////
 
@@ -104,8 +109,6 @@ $(document).ready(function() {
   }
 
   function pickImages(indicesArray, statusArray) {
-    console.log(indicesArray);
-    console.log(statusArray);
     assignedImages = [];
     for (i = 0; i < indicesArray.length; i++) {
       var imageArray = [];
@@ -125,10 +128,20 @@ $(document).ready(function() {
     return imageData;
   }
 
-  function createURL(searchTerm) {
+  function createURL(searchTerm, s, n) {
     // randomly generate a number for results to start from so that you get different
     // images every time
-    var randomS = Math.floor((Math.random() * 50) + 1);
+    if (s != null) {
+      var randomS = s;
+    } else {
+      var randomS = Math.floor((Math.random() * 50) + 1);
+    }
+
+    if (n != null) {
+      var results = n;
+    } else {
+      var results = 100;
+    }
 
     return "http://api.trove.nla.gov.au/result?key="
       + apiKey
@@ -139,30 +152,32 @@ $(document).ready(function() {
       // json encoding and in the picture zone
       + "&encoding=json&zone=picture"
       // sort by relevance, and get the top 100 (max)
-      + "&sortby=relevance&n=100"
+      + "&sortby=relevance"
+      + "&n=" + results.toString()
       // add random start number
       + "&s=" + randomS.toString()
       // uri encode the search term
       + "&q=" + encodeURI(searchTerm) + "&callback=?";
   }
 
-  $("#mapsBtn").click(function(event) {
-    $('#output').empty();
+  function generateMapBackground() {
     loadedImages = [];
     found = 0;
     names = [];
-    namesToPrint = [];
-    imagesToPrint = [];
 
-    var url = createURL(mapTerm);
+    var url = createURL(mapTerm, 0, 30);
     //get the JSON information we need to display the images
     $.getJSON(url, function(data) {
         $('#output').empty();
         $.each(data.response.zone[0].records.work, processImages);
-        pickRandomImages(pickRandomIndices(1));
-        waitForFlickr(); // Waits for the flickr images to load
+        var randomIndex = (Math.floor(Math.random() * loadedImages.length  - 1));
+        var map = [];
+        map.push(loadedImages[randomIndex]);
+        map.push(names[randomIndex]);
+        mapData.push(map);
+        $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
     });
-  });
+  };
 
   /*
    *   Depending where the image comes from, there is a special way to get that image from the website.
@@ -237,7 +252,6 @@ $(document).ready(function() {
       var isOnList = imageData[i][2];
       if (isOnList) {
         var name = imageData[i][1];
-        console.log(name);
 
         if (name.length > 50) {
           var shortenedName = name.slice(0, 47) + "..."
@@ -245,6 +259,8 @@ $(document).ready(function() {
           var shortenedName = name;
         }
         $(tableValues[tableLineCounter]).replaceWith(imageData[i][1]);
+        treasureData.push(imageData[i]);
+
         tableLineCounter++;
       }
     }
@@ -303,5 +319,73 @@ $(document).ready(function() {
           }
       }
       return (false);
+  }
+
+  function imagesIncreaseSize() {
+    $("#imagegrid img").hover(
+      function () {
+        $(this).addClass("over");
+      },
+      function () {
+        $(this).removeClass("over");
+      }
+    );
+  }
+
+  function checkOffFoundItems() {
+    $("#imagegrid img").click(function () {
+      var tableValues = $("#list tr td:first-of-type");
+      var checkValues = $("#list tr td.check");
+      var imageUrl = $(this).attr("src");
+      var found = 0;
+
+      for (i in treasureData) {
+        // if the image url matches
+        if (treasureData[i][0] == imageUrl) {
+          console.log(treasureData[i][1]);
+          if ($(checkValues[i]).children().length <= 0) {
+            $(checkValues[i]).append("<img class='tick' src='images/tick.png' alt='green tick'>");
+          }
+          break;
+        }
+      }
+
+      for (i in treasureData) {
+        if ($(checkValues[i]).children().length > 0) {
+          found++;
+        }
+      }
+
+      if (found == checkValues.length) {
+        window.location = "endgame.html";
+      }
+    });
+  }
+
+  function checkIfFinishedGame() {
+    var checkValues = $("#list tr td.check");
+    var found = 0;
+    //
+    for (i in checkValues) {
+      //  if ($(checkValues[i]).children().length > 0) {
+      //    found++;
+      //  }
+    }
+    //
+    // if (found == checkValues.length) {
+    //   window.location = "../endgame.html";
+    // }
+  }
+
+  function playGame() {
+
+    // hover over image
+    imagesIncreaseSize();
+
+    // checks if clicked images are on the list - check them off if they are
+    checkOffFoundItems();
+
+    // check if all images have been found
+  //  checkIfFinishedGame();
   }
 });
