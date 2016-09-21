@@ -28,7 +28,7 @@ h1{
 	background-size: 100% 100%;
 	padding: 5%;
 	display: inline-block;
-	margin:2% 10% 0 5%; 
+	margin:2% 10% 3% 5%; 
 
 
 }
@@ -45,6 +45,7 @@ td {
 	padding: 2%;
 	display: inline-block;
 	max-width: 500px;
+	margin-bottom: 3%;
 
 
 
@@ -64,18 +65,28 @@ td {
 	height: 16pt;
 }
 #newgame{
-	margin-top:3%;
 	display: inline-block;
 	float: left;
 	font-size: 30px;
 	margin-left: 50px;
 	font-family: 'Pompiere', cursive;
+	text-decoration: none;
+	color: black;
+	background-color: white;
+	padding: 5px 10px 5px 10px;
+	opacity: 0.7;
+
+
 }
 #leaderboard{
-	margin-top:3%; 
 	display: inline-block;
 	float: right;
 	font-size: 30px;
 	margin-right: 50px;
 	font-family: 'Pompiere', cursive;
+	text-decoration: none;
+	color: black;
+	background-color: white;
+	padding: 5px 10px 5px 10px;
+	opacity: 0.7;
 }
