@@ -96,6 +96,7 @@
       //get the JSON information we need to display the images
       $.getJSON(url, function(data) {
           $('#output').empty();
+          console.log(data);
           $.each(data.response.zone[0].records.work, processImages);
           waitForFlickr(); // Waits for the flickr images to load
       });
@@ -145,20 +146,33 @@
     function processImages(index, troveItem) {
       var imgUrl = troveItem.identifier[0].value;
       if (imgUrl.indexOf(urlPatterns[0]) >= 0) { // flickr
-		    found++;
-        addFlickrItem(imgUrl, troveItem);
+		    if (addFlickrItem(imgUrl, troveItem)) {
+          found++;
+        }
       } else if (imgUrl.indexOf(urlPatterns[1]) >= 0) { // nla.gov
-		    found++;
-        loadedImages.push(imgUrl + "/representativeImage?wid=900"); // change ?wid=900 to scale the image
+        nlaUrl = imgUrl + "/representativeImage?wid=900"; // change ?wid=900 to scale the image
+        if ($.inArray(nlaUrl, loadedImages) == -1) { // if not already in loadedImages
+		        found++;
+            loadedImages.push(nlaUrl);
+        }
       } else if (imgUrl.indexOf(urlPatterns[2]) >= 0) { //artsearch
-		    found++;
-        loadedImages.push("http://artsearch.nga.gov.au/IMAGES/LRG/" + getQueryVariable("IRN", imgUrl) + ".jpg");
+        artUrl = "http://artsearch.nga.gov.au/IMAGES/LRG/" + getQueryVariable("IRN", imgUrl) + ".jpg";
+        if ($.inArray(artUrl, loadedImages) == -1) { // if not already in loadedImages
+		        found++;
+            loadedImages.push(artUrl);
+        }
       } else if (imgUrl.indexOf(urlPatterns[3]) >= 0) { //recordsearch
-		    found++;
-        loadedImages.push("http://recordsearch.naa.gov.au/NAAMedia/ShowImage.asp?T=P&S=1&B=" + getQueryVariable("Number", imgUrl));
+        recordUrl = "http://recordsearch.naa.gov.au/NAAMedia/ShowImage.asp?T=P&S=1&B=" + getQueryVariable("Number", imgUrl);
+        if ($.inArray(recordUrl, loadedImages) == -1) { // if not already in loadedImages
+            found++;
+            loadedImages.push(recordUrl);
+        }
       } else if (imgUrl.indexOf(urlPatterns[4]) >= 0) { //slsa
-        found++;
-        loadedImages.push(imgUrl.slice(0, imgUrl.length - 3) + "jpg");
+        slsaUrl = imgUrl.slice(0, imgUrl.length - 3) + "jpg";
+        if ($.inArray(slsaUrl, loadedImages) == -1) { // if not already in loadedImages
+            found++;
+            loadedImages.push(slsadUrl);
+        }
       } else { // Could not reliably load image for item
             // UNCOMMENT FOR DEBUG:
 	    // console.log("Not available: " + imgUrl);
@@ -175,15 +189,18 @@
         $.getJSON(flickr_url + photo_id + "&format=json&nojsoncallback=1", function(data) {
             if (data.stat == "ok") {
                 var flickr_image_url = data.sizes.size[data.sizes.size.length - 1].source;
-                loadedImages.push(
-                    flickr_image_url
-                );
+                if ($.inArray(flickr_image_url, loadedImages) == -1) {
+                  loadedImages.push(flickr_image_url);
+                  return true;
+                } else {
+                  return false;
+                }
             }
         });
     }
 
     function printImages() {
-
+      console.log(loadedImages);
 	     // Print out all images
         for (var i in loadedImages) {
             var image = new Image();
