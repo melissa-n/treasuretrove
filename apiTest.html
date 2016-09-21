@@ -59,9 +59,9 @@
 
     (function($){
 
-  	function waitForFlickr() {
+  	function waitForFlickr(isSelected) {
   		if(found == loadedImages.length) {
-  			printImages();
+  			printImages(isSelected);
   		} else {
   			setTimeout(waitForFlickr, 250);
   		}
@@ -85,6 +85,22 @@
       return randomIndices;*/
     }
 
+    function pickSelected(array, selected) {
+      selectedArray = [];
+      for (i = 0; i < selected; i++) {
+        selectedArray.push(array[i]);
+      }
+      return selectedArray;
+    }
+
+    function pickUnselected(array, selected) {
+      unselectedArray = [];
+      for (i = selected; i < array.length; i++) {
+        unselectedArray.push(array[i]);
+      }
+      return unselectedArray;
+    }
+
     function shuffleArray(array) {
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -96,6 +112,8 @@
     }
 
     function pickRandomImages(toDisplay) {
+      imagesToPrint = [];
+      namesToPring = [];
       for (i = 0; i < toDisplay.length; i++) {
         randomImageUrl = loadedImages[toDisplay[i]];
         randomImageName = names[toDisplay[i]];
@@ -188,8 +206,13 @@
           $.getJSON(url, function(data) {
               $.each(data.response.zone[0].records.work, processImages);
               if (i == (searchTerms.length - 1)) {
-                pickRandomImages(toDisplay);
-                waitForFlickr(); // Waits for the flickr images to load
+                selected = pickRandomImages(pickSelected(toDisplay, 6));
+                waitForFlickr(true);
+                unselected = pickRandomImages(pickUnselected(toDisplay, 6));
+                waitForFlickr(false);
+
+                //pickRandomImages(toDisplay);
+                //waitForFlickr(); // Waits for the flickr images to load
               }
           });
         }
@@ -261,7 +284,7 @@
         });
     }
 
-    function printImages() {
+    function printImages(isSelected) {
 	     // Print out all images
         for (var i in imagesToPrint) {
             var image = new Image();
@@ -278,12 +301,11 @@
             image.style.margin = "1%";
             image.style.verticalAlign = "top";
 
-            //var divId = "image" + i.toString();
-            //$("#output").append("<div id='" + divId + "'></div>");
-            //$("#" + divId).append(image);
-            //$("#" + divId).append("</br>" + image.src + "</br>");
-
             $("#output").append(image);
+            if (isSelected) {
+              image.style.border = "5px solid pink";
+            }
+
             $("#output").append("</br>" + "Name: " + imageName + "</br>");
             $("#output").append("</br>" + "Source: " + image.src + "</br>");
         }
