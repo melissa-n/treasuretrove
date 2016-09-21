@@ -11,7 +11,7 @@ $(".tc").click(function(){
 //click close window button
 $("a.guanbi").click(function(){
 	$("#gray").hide();
-	$("#popup").hide();//查找ID为popup的DIV hide()隐藏
+	$("#popup").hide();//search ID, for popup's DIV hide()
 })
 
 //window's location center
@@ -37,7 +37,7 @@ $(".ac").click(function(){
 //click close window button
 $("a.close").click(function(){
 	$("#gy").hide();
-	$("#popfoot").hide();//查找ID为popup的DIV hide()隐藏
+	$("#popfoot").hide();
 })
 
 //window's location center
