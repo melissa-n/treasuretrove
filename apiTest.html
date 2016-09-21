@@ -43,8 +43,7 @@
 
 <script type="text/JavaScript">
     var loadedImages = [];
-    var imagesToPrint = [];
-    var namesToPrint = [];
+    var imageData = [];
     var urlPatterns = ["flickr.com", "nla.gov.au", "artsearch.nga.gov.au", "recordsearch.naa.gov.au", "images.slsa.sa.gov.au"];
     var found = 0;
     var apiKey = "jsk1qqntnrj7qbvf";
@@ -59,9 +58,9 @@
 
     (function($){
 
-  	function waitForFlickr(isSelected) {
+  	function waitForFlickr() {
   		if(found == loadedImages.length) {
-  			printImages(isSelected);
+  			printImages();
   		} else {
   			setTimeout(waitForFlickr, 250);
   		}
@@ -69,7 +68,7 @@
 
     function pickRandomIndices(numberOnScreen) {
       randomIndices = [];
-      for (i = 0; i < numberOnScreen; i++) {
+      while (randomIndices.length < numberOnScreen) {
         randomIndex = Math.floor((Math.random() * 30) + 1);
         if ($.inArray(randomIndex, randomIndices) <= -1) {
           randomIndices.push(randomIndex);
@@ -88,20 +87,38 @@
       return randomIndices;*/
     }
 
-    function pickSelected(array, selected) {
-      selectedArray = [];
-      for (i = 0; i < selected; i++) {
-        selectedArray.push(array[i]);
+    function assignSelectedStatus(array, numberSelected) {
+      selectedValues = [];
+      for (i = 0; i < array.length; i++) {
+        if (i < numberSelected) {
+          selectedValues.push(true);
+        } else {
+          selectedValues.push(false);
+        }
       }
-      return selectedArray;
+      return selectedValues;
     }
 
-    function pickUnselected(array, selected) {
-      unselectedArray = [];
-      for (i = selected; i < array.length; i++) {
-        unselectedArray.push(array[i]);
+    function pickImages(indicesArray, statusArray) {
+      console.log(indicesArray);
+      console.log(statusArray);
+      assignedImages = [];
+      for (i = 0; i < indicesArray.length; i++) {
+        var imageArray = [];
+        randomImageUrl = loadedImages[indicesArray[i]];
+        imageArray.push(randomImageUrl);
+
+        randomImageName = names[indicesArray[i]];
+        imageArray.push(randomImageName);
+
+        randomImageStatus = statusArray[i];
+        imageArray.push(randomImageStatus);
+
+        assignedImages.push(imageArray);
       }
-      return unselectedArray;
+
+      imageData = shuffleArray(assignedImages);
+      return imageData;
     }
 
     function shuffleArray(array) {
@@ -116,7 +133,7 @@
 
     function pickRandomImages(toDisplay) {
       imagesToPrint = [];
-      namesToPring = [];
+      namesToPrint = [];
       for (i = 0; i < toDisplay.length; i++) {
         randomImageUrl = loadedImages[toDisplay[i]];
         randomImageName = names[toDisplay[i]];
@@ -151,30 +168,33 @@
       loadedImages = [];
       found = 0;
       names = [];
-      namesToPrint = [];
-      imagesToPrint = [];
+
+      imageData = [];
+
+      var imageIndices = pickRandomIndices(1);
+      var imageStatuses = assignSelectedStatus(imageIndices, 1);
 
       var url = createURL(mapTerm);
       //get the JSON information we need to display the images
       $.getJSON(url, function(data) {
           $('#output').empty();
           $.each(data.response.zone[0].records.work, processImages);
-          pickRandomImages(pickRandomIndices(1));
-          waitForFlickr(); // Waits for the flickr images to load
+          pickImages(imageIndices, imageStatuses);
+          waitForFlickr();
       });
     });
 
     $("form#searchTrove").submit(function(event) {
         event.preventDefault();
 
-        imagesToPrint = [];
-        namesToPrint = [];
+        imageData = [];
         loadedImages = [];
         found = 0;
         searchTerms = [];
         names = [];
 
-        toDisplay = pickRandomIndices(16);
+        var imageIndices = pickRandomIndices(16);
+        var imageStatuses = assignSelectedStatus(imageIndices, 6);
 
         $('#output').empty();
         //get input values
@@ -209,10 +229,13 @@
           $.getJSON(url, function(data) {
               $.each(data.response.zone[0].records.work, processImages);
               if (i == (searchTerms.length - 1)) {
-                selected = pickRandomImages(pickSelected(toDisplay, 6));
-                waitForFlickr(true);
-                unselected = pickRandomImages(pickUnselected(toDisplay, 6));
-                waitForFlickr(false);
+                pickImages(imageIndices, imageStatuses);
+                console.log(imageData);
+                waitForFlickr();
+                //elected = pickRandomImages(pickSelected(toDisplay, 6));
+                //waitForFlickr(true);
+                //unselected = pickRandomImages(pickUnselected(toDisplay, 6));
+                //waitForFlickr(false);
 
                 //pickRandomImages(toDisplay);
                 //waitForFlickr(); // Waits for the flickr images to load
@@ -287,25 +310,24 @@
         });
     }
 
-    function printImages(isSelected) {
+    function printImages() {
 	     // Print out all images
-        for (var i in imagesToPrint) {
+        for (var i in imageData) {
             var image = new Image();
-            fullImageName = namesToPrint[i];
-            console.log(fullImageName);
+            fullImageName = imageData[i][1];
             if (fullImageName.length > 100) {
-              imageName = fullImageName.slice(0, 97) + "..."
+              var imageName = fullImageName.slice(0, 97) + "..."
             } else {
-              imageName = fullImageName;
+              var imageName = fullImageName;
             }
-            image.src = imagesToPrint[i];
+            image.src = imageData[i][0];
             image.style.display = "inline-block";
             image.style.width = "48%";
             image.style.margin = "1%";
             image.style.verticalAlign = "top";
 
             $("#output").append(image);
-            if (isSelected) {
+            if (imageData[i][2]) {
               image.style.border = "5px solid pink";
             }
 
