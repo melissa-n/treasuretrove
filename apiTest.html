@@ -14,20 +14,27 @@
 	<div class="site-main" id="main">
 			<div class="entry-content wide"><h2>Pulling images from TROVE</h2>
 
-        <form action="#" id="searchTrove">
-          <label for="category">Select a Category:</label>
-          <select name="category" id="category">
-            <option value="atiHeritage" selected="selected">Aboriginal and
-              Torres Strait Islander Heritage</option>
-            <option value="nature">Nature</option>
-            <option value="colAus">Colonial Australia</option>
-            <option value="tech">Technology</option>
-            <option value="nineteenHundreds">1900s Australia</option>
-            <option value="art">Art, Symbols and Emblems</option>
-          </select>
+        <div id="categoryImages">
+          <form action="#" id="searchTrove">
+            <label for="category">Select a Category:</label>
+            <select name="category" id="category">
+              <option value="atiHeritage" selected="selected">Aboriginal and
+                Torres Strait Islander Heritage</option>
+              <option value="nature">Nature</option>
+              <option value="colAus">Colonial Australia</option>
+              <option value="tech">Technology</option>
+              <option value="nineteenHundreds">1900s Australia</option>
+              <option value="art">Art, Symbols and Emblems</option>
+            </select>
 
-          <button type="submit" id="searchbtn">Search</button>
-        </form>
+            <button type="submit" id="searchbtn">Search</button>
+          </form>
+        </div>
+
+        <div id="mapsImage">
+          <button type="submit" id="mapsBtn">Generate a Random Australian Map!</button>
+        </div>
+
       </div>
 
 		<div id="output">
@@ -46,6 +53,7 @@
     var techTerms = ["Technology", "Inventions", "Innovation", "Research", "Development"];
     var nineteenHundredsTerms = ["1900s Australia", "1900s Immigration", "1900s Industrialism", "1900s Development"];
     var artTerms = ["Australian Flags", "Australian Art", "Aboriginal Art", "Australian Emblems", "Australian Symbols"];
+    var mapTerm = "Map of Australia";
 
     (function($){
 
@@ -58,6 +66,10 @@
     }
 
     function createURL(searchTerm) {
+      // randomly generate a number for results to start from so that you get different
+      // images every time
+      var randomS = Math.floor((Math.random() * 50) + 1);
+
       return "http://api.trove.nla.gov.au/result?key="
         + apiKey
         // available online for free
@@ -67,10 +79,27 @@
         // json encoding and in the picture zone
         + "&encoding=json&zone=picture"
         // sort by relevance, and get the top 100 (max)
-        + "&sortby=relevance&n=100&q="
+        + "&sortby=relevance&n=100"
+        // add random start number
+        + "&s=" + randomS.toString()
         // uri encode the search term
-        + encodeURI(searchTerm) + "&callback=?";
+        + "&q=" + encodeURI(searchTerm) + "&callback=?";
     }
+
+    $("#mapsBtn").click(function(event) {
+      $('#output').empty();
+      loadedImages = [];
+      found = 0;
+
+      var url = createURL(mapTerm);
+      console.log(url);
+      //get the JSON information we need to display the images
+      $.getJSON(url, function(data) {
+          $('#output').empty();
+          $.each(data.response.zone[0].records.work, processImages);
+          waitForFlickr(); // Waits for the flickr images to load
+      });
+    });
 
     $("form#searchTrove").submit(function(event) {
         event.preventDefault();
@@ -79,6 +108,7 @@
 	      found = 0;
         searchTerms = [];
 
+        $('#output').empty();
         //get input values
         var category = $("#category :selected").val();
         if (category == "atiHeritage") {
@@ -102,7 +132,6 @@
           console.log(url);
           //get the JSON information we need to display the images
           $.getJSON(url, function(data) {
-              $('#output').empty();
               $.each(data.response.zone[0].records.work, processImages);
   	          waitForFlickr(); // Waits for the flickr images to load
           });
