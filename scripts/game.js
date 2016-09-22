@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  // this script is adapted form the Trove Image Search deco1800 example:
+  // http://deco1800.uqcloud.net/examples/troveImage.php
   var loadedImages = [];
   var urlPatterns = ["flickr.com", "nla.gov.au", "artsearch.nga.gov.au", "recordsearch.naa.gov.au", "images.slsa.sa.gov.au"];
   var found = 0;
@@ -279,6 +282,8 @@ $(document).ready(function() {
     }
   }
 
+  //&lt;a href=&quot;yourLink.html&quot;&gt;Trade Show Panels - 2011&lt;/a&gt;
+
   function createImageGrid() {
     var gridImages = [];
     for (i = 1; i < 17; i++) {
@@ -310,6 +315,11 @@ $(document).ready(function() {
       $(gridImages[j]).parent().attr("href", treasureUrl);
 
       // title of the link that contains the image is the title
+      //treasureTroveLinkHtml will make the description a link
+      // doesnt work :(
+      /*
+      var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
+        + treasureTroveLink + "&lt;/a&gt;";*/
       $(gridImages[j]).parent().attr("title", treasureTroveLink);
       //if (imageData[j][2]) {
       //    $(gridImages[j]).css({"border": "1px solid red"});
@@ -397,30 +407,11 @@ $(document).ready(function() {
     });
   }
 
-  function checkIfFinishedGame() {
-    var checkValues = $("#list tr td.check");
-    var found = 0;
-    //
-    for (i in checkValues) {
-      //  if ($(checkValues[i]).children().length > 0) {
-      //    found++;
-      //  }
-    }
-    //
-    // if (found == checkValues.length) {
-    //   window.location = "../endgame.html";
-    // }
-  }
-
   function playGame() {
-
     // hover over image
     imagesIncreaseSize();
 
     // checks if clicked images are on the list - check them off if they are
     checkOffFoundItems();
-
-    // check if all images have been found
-  //  checkIfFinishedGame();
   }
 });
