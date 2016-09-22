@@ -186,6 +186,7 @@ $(document).ready(function() {
         map.push(troveLinks[randomIndex]);
         mapData.push(map);
         $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
+        mapInfoPopsUp();
     });
   };
 
@@ -405,6 +406,24 @@ $(document).ready(function() {
         window.location = "endgame.html";
       }
     });
+  }
+
+  function mapInfoPopsUp() {
+    var mapImage = mapData[0];
+    console.log(mapImage);
+    var mapImageUrl = mapImage[0];
+    var mapImageName = mapImage[1];
+    // we dont need mapImage[2] because we dont care about map status
+    var mapImageTroveLink = mapImage[3];
+
+    // alt is the image title
+    $("#moremap").attr("alt", mapImageName);
+
+    // href of the link that contains the image is the popup image
+    $("#moremap").parent().attr("href", mapImageUrl);
+
+    // title of parent link is the description
+    $("#moremap").parent().attr("title", mapImageTroveLink);
   }
 
   function playGame() {
