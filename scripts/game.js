@@ -1,7 +1,5 @@
 $(document).ready(function() {
   var loadedImages = [];
-  var imagesToPrint = [];
-  var namesToPrint = [];
   var urlPatterns = ["flickr.com", "nla.gov.au", "artsearch.nga.gov.au", "recordsearch.naa.gov.au", "images.slsa.sa.gov.au"];
   var found = 0;
   var apiKey = "jsk1qqntnrj7qbvf";
@@ -22,6 +20,7 @@ $(document).ready(function() {
   var loadedImages = [];
   var found = 0;
   var names = [];
+  var troveLinks = [];
 
   imageData = [];
   mapData = [];
@@ -112,6 +111,7 @@ $(document).ready(function() {
     assignedImages = [];
     for (i = 0; i < indicesArray.length; i++) {
       var imageArray = [];
+
       randomImageUrl = loadedImages[indicesArray[i]];
       imageArray.push(randomImageUrl);
 
@@ -120,6 +120,9 @@ $(document).ready(function() {
 
       randomImageStatus = statusArray[i];
       imageArray.push(randomImageStatus);
+
+      randomImageTroveLink = troveLinks[indicesArray[i]];
+      imageArray.push(randomImageTroveLink);
 
       assignedImages.push(imageArray);
     }
@@ -164,16 +167,20 @@ $(document).ready(function() {
     loadedImages = [];
     found = 0;
     names = [];
+    troveLinks = [];
 
     var url = createURL(mapTerm, 0, 30);
     //get the JSON information we need to display the images
     $.getJSON(url, function(data) {
+        console.log(data);
         $('#output').empty();
         $.each(data.response.zone[0].records.work, processImages);
         var randomIndex = (Math.floor(Math.random() * loadedImages.length  - 1));
         var map = [];
         map.push(loadedImages[randomIndex]);
         map.push(names[randomIndex]);
+        map.push(true);
+        map.push(troveLinks[randomIndex]);
         mapData.push(map);
         $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
     });
@@ -186,10 +193,12 @@ $(document).ready(function() {
   function processImages(index, troveItem) {
     var imgUrl = troveItem.identifier[0].value;
     var imgName = troveItem.title;
+    var imgTroveLink = troveItem.troveUrl;
     if (imgUrl.indexOf(urlPatterns[0]) >= 0) { // flickr
       if (addFlickrItem(imgUrl, troveItem)) {
         found++;
         names.push(imgName);
+        troveLinks.push(imgTroveLink);
       }
     } else if (imgUrl.indexOf(urlPatterns[1]) >= 0) { // nla.gov
       nlaUrl = imgUrl + "/representativeImage?wid=900"; // change ?wid=900 to scale the image
@@ -197,6 +206,7 @@ $(document).ready(function() {
           found++;
           loadedImages.push(nlaUrl);
           names.push(imgName);
+          troveLinks.push(imgTroveLink);
       }
     } else if (imgUrl.indexOf(urlPatterns[2]) >= 0) { //artsearch
       artUrl = "http://artsearch.nga.gov.au/IMAGES/LRG/" + getQueryVariable("IRN", imgUrl) + ".jpg";
@@ -204,6 +214,7 @@ $(document).ready(function() {
           found++;
           loadedImages.push(artUrl);
           names.push(imgName);
+          troveLinks.push(imgTroveLink);
       }
     } else if (imgUrl.indexOf(urlPatterns[3]) >= 0) { //recordsearch
       recordUrl = "http://recordsearch.naa.gov.au/NAAMedia/ShowImage.asp?T=P&S=1&B=" + getQueryVariable("Number", imgUrl);
@@ -211,6 +222,7 @@ $(document).ready(function() {
           found++;
           loadedImages.push(recordUrl);
           names.push(imgName);
+          troveLinks.push(imgTroveLink);
       }
     } else if (imgUrl.indexOf(urlPatterns[4]) >= 0) { //slsa
       slsaUrl = imgUrl.slice(0, imgUrl.length - 3) + "jpg";
@@ -218,6 +230,7 @@ $(document).ready(function() {
           found++;
           loadedImages.push(slsadUrl);
           names.push(imgName);
+          troveLinks.push(imgTroveLink);
       }
     } else { // Could not reliably load image for item
           // UNCOMMENT FOR DEBUG:
@@ -273,9 +286,23 @@ $(document).ready(function() {
       gridImages.push(image);
     }
 
+    console.log(gridImages);
     for (j in gridImages) {
       var treasureUrl = imageData[j][0];
+      var treasureName = imageData[j][1];
+      var treasureTroveLink = imageData[j][3];
+
+      // src for the image itself
       $(gridImages[j]).attr("src", treasureUrl);
+
+      // alt is the image title
+      $(gridImages[j]).attr("alt", treasureName);
+
+      // href of the link that contains the image is the popup image
+      $(gridImages[j]).parent().attr("href", treasureUrl);
+
+      // title of the link that contains the image is the title
+      $(gridImages[j]).parent().attr("title", treasureTroveLink);
       //if (imageData[j][2]) {
       //    $(gridImages[j]).css({"border": "1px solid red"});
       //}
