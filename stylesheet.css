@@ -33,13 +33,12 @@ h1{
 
 
 }
-tr{
-	padding: 5%;
 
-}
+
 td {
-    padding: 6%;
+    padding: 25px 0 25px 0;
     text-align: left;
+    border: 2px solid black;
 
 
 }
@@ -102,4 +101,9 @@ table{
 	background-color: white;
 	padding: 5px 10px 5px 10px;
 	opacity: 0.7;
+}
+#moremap{
+	float: right;
+	font-size: 12pt;
+	height: 20px'
 }
