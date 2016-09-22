@@ -266,12 +266,12 @@ $(document).ready(function() {
       if (isOnList) {
         var name = imageData[i][1];
 
-        if (name.length > 50) {
-          var shortenedName = name.slice(0, 47) + "..."
+        if (name.length > 120) {
+          var shortenedName = name.slice(0, 117) + "..."
         } else {
           var shortenedName = name;
         }
-        $(tableValues[tableLineCounter]).replaceWith(imageData[i][1]);
+        $(tableValues[tableLineCounter]).replaceWith(shortenedName);
         treasureData.push(imageData[i]);
 
         tableLineCounter++;
