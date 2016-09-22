@@ -290,13 +290,21 @@ $(document).ready(function() {
     for (j in gridImages) {
       var treasureUrl = imageData[j][0];
       var treasureName = imageData[j][1];
+      var treasureStatus = imageData[j][2];
       var treasureTroveLink = imageData[j][3];
 
       // src for the image itself
       $(gridImages[j]).attr("src", treasureUrl);
 
+      var popUpComment = "";
+      if (treasureStatus) {
+        popUpComment = "JOLLY GOOD! YOU FOUND: ";
+      } else {
+        popUpComment = "WALK THE PLANK! THAT'S NOT TREASURE: ";
+      }
+
       // alt is the image title
-      $(gridImages[j]).attr("alt", treasureName);
+      $(gridImages[j]).attr("alt", popUpComment + treasureName);
 
       // href of the link that contains the image is the popup image
       $(gridImages[j]).parent().attr("href", treasureUrl);
