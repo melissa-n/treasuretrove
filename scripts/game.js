@@ -9,7 +9,7 @@ $(document).ready(function() {
 
   var atiHeritageTerms = ["Aboriginal", "Torres Strait Islander", "Aboriginal Heritage", "Aboriginal Artefacts", "Aboriginal History"];
   var natureTerms = ["Australian Flora", "Australian Fauna", "Environment", "Sustainability", "Natural Resources", "Natural Disasters"];
-  var colAusTerms = ["Colonialism", "Settlement", "Post-Colonialism"];
+  var colAusTerms = ["Colonialism", "Settlement", "Post-Colonialism", "Colony"];
   var techTerms = ["Technology", "Science", "Research", "Development", "Invention"];
   var nineteenHundredsTerms = ["1900s", "Immigration", "Industrialism", "Development"];
   var artTerms = ["Australian Flags", "Australian Art", "Aboriginal Art", "Australian Emblems", "Australian Symbols"];
@@ -51,10 +51,12 @@ $(document).ready(function() {
   }
 
   for (i in searchTerms) {
+    console.log(i);
     var url = createURL(searchTerms[i]);
     //get the JSON information we need to display the images
     $.getJSON(url, function(data) {
         $.each(data.response.zone[0].records.work, processImages);
+<<<<<<< HEAD
         if (i == (searchTerms.length - 1)) {
         	console.log("a");
           pickImages(imageIndices, imageStatuses);
@@ -62,8 +64,45 @@ $(document).ready(function() {
           // waitForFlickr();
           createList();
           createImageGrid();
+=======
+    }).done(function(){
+        if (i == (searchTerms.length - 1) && loadedImages.length) {
+
+          var start = new Date().getTime();
+          var timeout = 10000;
+          var keepGoing = true;
+
+          var loadedImagesReady = false;
+          while (loadedImagesReady == false && keepGoing) {
+            loadedImagesReady = checkIfLoadedImagesReady();
+
+            var end = new Date().getTime();
+            if ((end - start) >= timeout) {
+              keepGoing = false;
+              window.alert("There were troubles loading your game data :( Please refresh or pick a different category!");
+            }
+          }
+
+          console.log(loadedImages);
+
+          if (loadedImagesReady) {
+            pickImages(imageIndices, imageStatuses);
+            console.log(imageData);
+            // waitForFlickr();
+            createList();
+            createImageGrid();
+          }
+>>>>>>> fabcc6cf3c02aeb373c4d56a2d2078f4c2580a33
         }
     });
+  }
+
+  function checkIfLoadedImagesReady() {
+    if (loadedImages.length >= 30) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   playGame();
@@ -116,16 +155,16 @@ $(document).ready(function() {
     for (i = 0; i < indicesArray.length; i++) {
       var imageArray = [];
 
-      randomImageUrl = loadedImages[indicesArray[i]];
+      var randomImageUrl = loadedImages[indicesArray[i]];
       imageArray.push(randomImageUrl);
 
-      randomImageName = names[indicesArray[i]];
+      var randomImageName = names[indicesArray[i]];
       imageArray.push(randomImageName);
 
-      randomImageStatus = statusArray[i];
+      var randomImageStatus = statusArray[i];
       imageArray.push(randomImageStatus);
 
-      randomImageTroveLink = troveLinks[indicesArray[i]];
+      var randomImageTroveLink = troveLinks[indicesArray[i]];
       imageArray.push(randomImageTroveLink);
 
       assignedImages.push(imageArray);
@@ -293,7 +332,6 @@ $(document).ready(function() {
       gridImages.push(image);
     }
 
-    console.log(gridImages);
     for (j in gridImages) {
       var treasureUrl = imageData[j][0];
       var treasureName = imageData[j][1];
@@ -403,6 +441,7 @@ $(document).ready(function() {
         }
       }
 
+      console.log()
       if (found == checkValues.length) {
         window.location = "endgame.html";
       }
@@ -411,7 +450,6 @@ $(document).ready(function() {
 
   function mapInfoPopsUp() {
     var mapImage = mapData[0];
-    console.log(mapImage);
     var mapImageUrl = mapImage[0];
     var mapImageName = mapImage[1];
     // we dont need mapImage[2] because we dont care about map status
