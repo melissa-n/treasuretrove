@@ -56,6 +56,7 @@ $(document).ready(function() {
     $.getJSON(url, function(data) {
         $.each(data.response.zone[0].records.work, processImages);
         if (i == (searchTerms.length - 1)) {
+        	console.log("a");
           pickImages(imageIndices, imageStatuses);
           console.log(imageData);
           // waitForFlickr();
