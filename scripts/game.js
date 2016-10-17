@@ -441,9 +441,8 @@ $(document).ready(function() {
         }
       }
 
-      console.log()
       if (found == checkValues.length) {
-        window.location = "endgame.html";
+        window.location = "endGame.html";
       }
     });
   }
