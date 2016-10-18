@@ -56,7 +56,6 @@ $(document).ready(function() {
     //get the JSON information we need to display the images
     $.getJSON(url, function(data) {
         $.each(data.response.zone[0].records.work, processImages);
-<<<<<<< HEAD
         if (i == (searchTerms.length - 1)) {
         	console.log("a");
           pickImages(imageIndices, imageStatuses);
@@ -64,7 +63,7 @@ $(document).ready(function() {
           // waitForFlickr();
           createList();
           createImageGrid();
-=======
+        }
     }).done(function(){
         if (i == (searchTerms.length - 1) && loadedImages.length) {
 
@@ -92,7 +91,6 @@ $(document).ready(function() {
             createList();
             createImageGrid();
           }
->>>>>>> fabcc6cf3c02aeb373c4d56a2d2078f4c2580a33
         }
     });
   }
@@ -107,7 +105,6 @@ $(document).ready(function() {
 
   playGame();
 
-  ////////////////////////////
 
   function waitForFlickr() {
     if(found == loadedImages.length) {

@@ -4,7 +4,7 @@
 /** Font stacks and background */
 html{
 	
-	background-image: url('images/background.jpg');
+	background-image: url('../images/background.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -125,10 +125,10 @@ div ul li a,visited{color:#000;
 }
 
 .guanbi{
-	background-image:url(images/popup_guanbi.png));
+	background-image:url(../images/popupGuanbi.png));
 }
 .close{
-	background-image:url(images/popup_guanbi.png));
+	background-image:url(../images/popupGuanbi.png));
 }
 
 .popup .top_nav{
@@ -154,9 +154,9 @@ div ul li a,visited{color:#000;
 
 .popfoot .ftop_nav span{color:#707070;display:block;position:absolute;top:13px;left:50px;}
 
-.popfoot .ftop_nav a.close{ width:35px; height: 35px; background:url(images/popup_guanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
+.popfoot .ftop_nav a.close{ width:35px; height: 35px; background:url(../images/popupGuanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
 
-.popup .top_nav a.guanbi { width:35px; height: 35px; background:url(images/popup_guanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
+.popup .top_nav a.guanbi { width:35px; height: 35px; background:url(../images/popupGuanbi.png) repeat 0px 0px;display: block; position:absolute;top:8px;right:10px;cursor:pointer;}
 
 .popup .top_nav a.guanbi span { display: none;}
 
