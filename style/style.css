@@ -10,20 +10,20 @@ html{
 }
 p{
 	color: #202020;
-	font-family: 'Pompiere', cursive;
+	font-family: 'Della Respira', cursive;
 }
 h1{
-	font-family: 'New Rocker', cursive;
+	font-family: 'Pirata One', cursive;
 	font-size: 50pt;
 	color: #250000;
 }
 h2{
-	font-family: 'Pompiere', cursive;
+	font-family: 'Della Respira', cursive;
 	font-size: 30pt;
 	font-weight: bold;
 }
 a{
-	font-family: 'Pompiere', cursive;
+	font-family: 'Della Respira', cursive;
 	font-weight: bold;
 	font-size: 20pt;
 }
@@ -42,6 +42,17 @@ a{
     width:85%;
 }
 
+select{
+	font-size: 16pt;
+	font-family: 'Della Respira', cursive;
+
+}
+
+#searchbtn{
+	font-size: 16pt;
+	font-family: 'Della Respira', cursive;
+
+}
 .menu-grids{
 	    margin-top: 3em;
 		box-sizing: border-box;
@@ -108,21 +119,17 @@ div ul li a,visited{color:#000;
 	display:none;
 }
 .popfoot{
-	width:532px; 
+	width:550px; 
 	height:auto;
 	background-color:#fff;
-	position:absolute;
-	z-index:100;
+	position: absolute;
+	top: 20%;
+	left: 35%;
 	border:1px solid #ebeaea;
-	left:400px;
-	top:96px;
 	display:none;
 	}
+
 	
-.footer-side{
-	width:532px;
-	height:auto;
-}
 
 .guanbi{
 	background-image:url(../images/popupGuanbi.png));
@@ -141,9 +148,10 @@ div ul li a,visited{color:#000;
 .popfoot .ftop_nav{
 	width:532px;
 	height:46px;
-	border-bottom:1px solid #ebeaea;
+	border-bottom:3px solid #ebeaea;
 	position:relative;
 	cursor:move;
+
 }
 
 .popup .top_nav i{width:35px;height:35px;position:absolute;top:6px;left:8px;display:block; }
@@ -212,11 +220,7 @@ div ul li a,visited{color:#000;
 	font-weight: bold;
 }
 /*End game edit */
-h1{
-	letter-spacing: 5px;
-	font-size: 100px;
-	margin: 0;
-}
+
 #chest{
 	display: block;
 	margin: auto;

@@ -4,32 +4,43 @@ html{
 	background-image: url('../images/background.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
+
 }
 
 p{
 	color: #202020;
-	font-family: 'Pompiere', cursive;
+	font-family: 'Della Respira', cursive;
 }
 
 body{
 	font-family: 'New Rocker', cursive;
 	font-size: 16pt;
-	min-width: 1200px;
+
 }
 
 h1{
-	font-family: 'New Rocker', cursive;
+	font-family: 'Pirata One', cursive;
 	font-size: 50pt;
 	color: #250000;
 
 }
+h1:first-of-type{
+	margin-left: 50px;
+	display: inline-block;
+}
+#topBanner{
+
+}
+
 #list{
 	background-image: url('../images/scroll.png');
 	background-size: 100% 100%;
 	padding: 5%;
 	display: inline-block;
-	margin:2% 10% 3% 5%;
+	margin:2% 6% 3% 5%;
 	font-family:  'Pompiere', cursive;
+	max-width: 30%;
+
 
 
 }
@@ -42,10 +53,7 @@ td {
 
 
 }
-table{
-	max-width: 30%;
 
-}
 
 
 #imagegrid{
@@ -53,16 +61,23 @@ table{
 	background-image: url('../images/map.jpg');
 	background-size: 100% 100%;
 	padding: 2%;
+	margin-right: 5%;
+	margin-top: 2%;
+	float: right;
 	display: inline-block;
-	max-width: 500px;
-	margin-bottom: 3%;
+	min-width: 500px;
+	max-width: 30%;
+	min-height: 500px;
+	max-height: 20%;
 }
 
 .grid{
 	display: inline-block;
     float: left;
-    width: 100px;
-    height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 20%;
+    max-height: 100px;
     margin: 10px;
     border: 2px solid white;
 }
@@ -89,9 +104,11 @@ table{
 	opacity: 0.7;
 
 
+
 }
-#leaderboard{
-	display: inline-block;
+
+#moremap{
+	display: flex;
 	float: right;
 	font-size: 30px;
 	margin-right: 50px;
@@ -101,8 +118,32 @@ table{
 	background-color: white;
 	padding: 5px 10px 5px 10px;
 	opacity: 0.7;
+	border: 1px solid black;
 }
-#moremap{
+/*timer style*/
+
+.box{
 	float: right;
-	width: 100px;
+	margin-top: 60px;
+	margin-right: 300px;
+	font-family: 'Della Respira', cursive;
+	font-size: 30pt;
+	font-weight: bold;
+
+}
+#showtime{
+	margin:20px;margin-bottom: 20px;text-align: center;
+}
+
+button{
+	display: none;
+}
+#record{
+	margin-top:20px;
+}
+#record div{
+	width:400px;height:30px;border-bottom:1px dotted #666;
+}
+#record span{
+	font-size:20px;
 }

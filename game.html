@@ -10,26 +10,16 @@
   <!-- for the open source prettyPhoto lightbox clone (all files in prettyPhoto folder)
    from http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/-->
   <script type="prettyPhoto/js/jquery-1.6.1.min.js"></script>
+
   <link rel="stylesheet" href="prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+
   <script src="prettyPhoto/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 
   <script type="text/javascript" src="scripts/game.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=New+Rocker|Pompiere" rel="stylesheet" type ="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Della+Respira|Pirata+One" rel="stylesheet">
 
   <!-- prettyPhoto script -->
   <script type="text/javascript" src="scripts/forPrettyPhoto.js" charset="utf-8"></script>
- <style>
-	body{margin:0;padding:0;}
-	.box{margin:10px auto;width:auto;}
-	#showtime{margin:20px;margin-bottom: 20px;text-align: center;}
-	span{font-size: 60px;}
-	button{width:100px;height:100px;border-radius: 50px;border:0;outline:none ;margin:0 48px;font-size:24px;}
-	#record{margin-top:20px;}
-	#record div{width:400px;height:30px;border-bottom:1px dotted #666;}
-	#record span{font-size:20px;}
-	.left{float:left;}
-	.right{float:right;}
-</style>
 
 <script language="javascript">
     window.onload = function ()
@@ -68,15 +58,19 @@
 
 </head>
 <body>
-	<h1><center>Australia</center></h1>
+<div id="topBanner">
+	<h1>Treasure Trove</h1>
+
 	<div class="box">
-	<div align="center" id="countdown">
+
+	<div id="countdown">
         <span>15</span>:<span>00</span>
 
         <input type="button" value="start" />
 
         </div>
         </div>
+</div>
 <table id='list'>
 	<tr>
 		<td>
@@ -173,19 +167,16 @@
   <a href="" rel="prettyPhoto" title="">
   	<img id="16" class='grid' src="Test images/Sculpture.jpg" alt="First element of grid" />
   </a>
+  
+</div>
+
   <a href="" rel="prettyPhoto" title="">
     <img id="moremap" src="images/moreMap.png" alt="" />
   </a>
-</div>
-
-<div id="output">
-</div>
 		<form>
 			<input id= "newgame" type="button" value="New Game" onclick="window.location.href='index.html'"/>
 		</form>
-		<form>
-			<input id= "leaderboard" type="button" value="Leader Board" onclick="window.location.href='leaderboard.html'"/>
-		</form>
+		
 
 </body>
 </html>
