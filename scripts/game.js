@@ -357,7 +357,8 @@ $(document).ready(function() {
       /*
       var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
         + treasureTroveLink + "&lt;/a&gt;";*/
-      $(gridImages[j]).parent().attr("title", treasureTroveLink);
+      $(gridImages[j]).parent().attr("title", "<a href=\"" + treasureTroveLink + "\">" + treasureTroveLink + "</a>");
+
       //if (imageData[j][2]) {
       //    $(gridImages[j]).css({"border": "1px solid red"});
       //}
