@@ -31,6 +31,12 @@ h1:first-of-type{
 #topBanner{
 
 }
+#instructions{
+	position: absolute;
+	top: 150px;
+	right: 200px;
+	font-size: 12pt;
+}
 
 #list{
 	background-image: url('../images/scroll.png');

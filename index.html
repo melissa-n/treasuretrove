@@ -20,6 +20,14 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
   <h1><centre>Treasure Trove</centre></h1>
 </div>
 
+<div class="login">
+<form>
+	<h2>Login</h2>
+	<input type="text" name="userID">
+	<button type="submit" id="loginbutton">Login</button>
+</form>
+</div>
+
 <div class="container">
   <div class="menu-grids">
 
@@ -59,17 +67,13 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
             <form method="POST" name="form_login" id="fm_login" target="_top">
                 <div align="center">
                     <!--Add YOUR OWN TREASURE(upload)-->
-                    <p>Pick a Category:
-                    <select class="setting-category-selected">
-                      <option value="type" selected="selected">--Category--</option>
-                      <option value="atiHeritage">Aboriginal and Torres Strait Islander Heritage</option>
-                      <option value="nature">Nature</option>
-                      <option value="colAus">Colonial Australia</option>
-                      <option value="tech">Technology</option>
-                      <option value="nineteenHundreds">1900s Australia</option>
-                      <option value="art">Art, Symbols and Emblems</option>
-                    </select>
-                    </p>
+                    <p>Name Your Category:<br></p>
+                    <input type="text" name="categoryName">
+					
+                    <p>Key Search Terms<br></p>
+                    <input type="text" name="searchTerm">
+                    
+                    
                     <p>Number of Treasure:
                     <select class="setting-NOTreasure-selected">
                       <option value="type" selected="selected">--Number--</option>
