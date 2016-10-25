@@ -14,7 +14,7 @@ p{
 }
 h1{
 	font-family: 'Pirata One', cursive;
-	font-size: 50pt;
+	font-size: 60pt;
 	color: #250000;
 }
 h2{
@@ -37,13 +37,17 @@ a{
 	float: right;
 	padding-right: 5%;
 	width: 40%;
-	vertical-align: middle;
+	margin-top: 3%;
 }
 .container {
     width: 40%;
     padding-left: 5%;
     float:left;
   
+}
+#loginbutton, #loginText{
+	font-size: 16pt;
+	font-family: 'Della Respira', cursive;
 }
 
 select{
@@ -97,6 +101,8 @@ div ul li a,visited{color:#000;
 .tc{
 	text-decoration: none;
 	color: black;
+	
+
 
 }
 .ac{
@@ -195,7 +201,6 @@ div ul li a,visited{color:#000;
     font-size: 1em;
     height: 40px;
     padding:0 0 0 34px;
-	
     transition: background 0.3s ease-in-out;
     width: 220px;
 	float:right;
