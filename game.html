@@ -42,7 +42,7 @@
             var oRemain = aSpan[0].innerHTML.replace(/^0/,'') * 60 + parseInt(aSpan[1].innerHTML.replace(/^0/,''));
             if(oRemain <= 0)
         {
-            clearInterval(timer);
+            window.location = "endGame.html";
             return;
         }
             oRemain--;
