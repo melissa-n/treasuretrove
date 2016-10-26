@@ -180,10 +180,12 @@ $(document).ready(function() {
         + "Please refresh or pick a different category!");
     } else {
       // pick random indices
-      var randomIndices = pickRandomIndices(16);
+      var randomIndices = pickRandomIndices(gameSize*gameSize);
       var gameImages = setImages(randomIndices);
-      // populate game
       console.log(gameImages);
+      // populate game
+      var treasures = createTreasureList(gameImages);
+      createImageGrid(gameImages);
     }
   }
 
@@ -236,6 +238,80 @@ $(document).ready(function() {
     return shuffleArray(gameImages);
   }
 
+  function createTreasureList(gameImages) {
+    var treasures = [];
+    var table = $("#list");
+
+    for (var i = 0; i < numTreasures; i++) {
+      table.append("<tr><td></td><td></td></tr>");
+    }
+
+    var tableLineCounter = 0;
+    var tableValues = $("#list tr td:first-of-type");
+
+    for (var i = 0; i < gameImages.length; i++) {
+      var isOnList = gameImages[i][2];
+      if (isOnList) {
+
+        var name = gameImages[i][1];
+        if (name.length > 120) {
+          var name = name.slice(0, 117) + "..."
+        }
+
+        $(tableValues[tableLineCounter]).replaceWith(name);
+        treasures.push(gameImages[i]);
+
+        tableLineCounter++;
+      }
+    }
+    return treasures;
+  }
+
+  function createImageGrid(gameImages) {
+    var imageGrid = $("#imagegrid");
+    var gridImages = [];
+    for (var i = 0; i < gameSize*gameSize; i++) {
+      imageGrid.append("<a href='' rel='prettyPhoto' title=''><img id='" + i.toString() + "' class='grid'/></a>")
+      var image = $("#imagegrid img#" + i.toString());
+      gridImages.push(image);
+    }
+
+    for (var j in gridImages) {
+      var treasureUrl = gameImages[j][0];
+      var treasureName = gameImages[j][1];
+      var treasureStatus = gameImages[j][2];
+      var treasureTroveLink = gameImages[j][3];
+
+      // src for the image itself
+      $(gridImages[j]).attr("src", treasureUrl);
+
+      var popUpComment = "";
+      if (treasureStatus) {
+        popUpComment = "JOLLY GOOD! YOU FOUND: ";
+      } else {
+        popUpComment = "WALK THE PLANK! THAT'S NOT TREASURE: ";
+      }
+
+      // alt is the image title
+      $(gridImages[j]).attr("alt", popUpComment + treasureName);
+
+      // href of the link that contains the image is the popup image
+      $(gridImages[j]).parent().attr("href", treasureUrl);
+
+      // title of the link that contains the image is the title
+      //treasureTroveLinkHtml will make the description a link
+      // doesnt work :(
+      /*
+      var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
+        + treasureTroveLink + "&lt;/a&gt;";*/
+      $(gridImages[j]).parent().attr("title", "<a href=\"" + treasureTroveLink + "\">" + treasureTroveLink + "</a>");
+
+      //if (imageData[j][2]) {
+      //    $(gridImages[j]).css({"border": "1px solid red"});
+      //}
+    }
+  }
+
   function shuffleArray(array) {
       for (var i = array.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
@@ -248,7 +324,7 @@ $(document).ready(function() {
 
   // true if enough, false if not
   function enoughImagesForGame() {
-    if (found < gameSize^2) {
+    if (found < gameSize*gameSize) {
       return false;
     } else {
       return true;
