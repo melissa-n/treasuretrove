@@ -66,18 +66,15 @@
             <div class="tc_login">
               <div class="center">
                 <form action="game.html" id="customGame" method="get" target="_top">
-        <p>Name Your Category:</p>
-        <input type="text" name="categoryName" id="categoryName">
+        <p>Name Your Category:
+        <input type="text" name="categoryName" id="categoryName"></p>
 
-        <p>Enter Your Search Terms:</p>
-        <input type="text" name="searchTerm1" id="searchTerm1">
-        <input type="text" name="searchTerm2" id="searchTerm2">
-        <input type="text" name="searchTerm3" id="searchTerm3">
-        <input type="text" name="searchTerm4" id="searchTerm4">
-        <input type="text" name="searchTerm5" id="searchTerm5">
-        <input type="text" name="searchTerm6" id="searchTerm6">
+        <p>Enter Your Search Terms:<input type="text" name="searchTerm1" id="searchTerm1"></p>
+	<button id="add">+</button>
+        <div id="inputbox"></div>
+        
 
-        <p>Choose The Number Of Treasures
+        <p>Choose The Number Of Treasures:
         <select name="numberOfTreasures" id="numberOfTreasures">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -115,7 +112,20 @@
     </div>
   </div>
  </div>
-      
+  
+   <script type="text/javascript">
+        var add = document.getElementById('add'),
+            inputbox = document.getElementById('inputbox');
+        add.onclick = function(){
+           var input = document.createElement("input");
+               input.setAttribute('type', 'text')
+			   input.setAttribute('name', 'searchTerm')
+			   input.setAttribute('id', 'searchTerm')
+			   
+            inputbox.appendChild(input);
+            input.focus();
+        }
+    </script>
   <script type="text/javascript" src="scripts/windowMove.js"></script>
   <script type="text/javascript" src="scripts/windowDisplay.js"></script>
 
