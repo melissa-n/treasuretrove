@@ -28,6 +28,10 @@ a{
 	font-weight: bold;
 	font-size: 20pt;
 }
+inputbox{
+	width:560px;
+	height:auto;
+}
 
 
 .pageHeading{
@@ -125,6 +129,8 @@ div ul li a,visited{color:#000;
 	top:96px;
 	display:none;
 }
+
+
 .popfoot{
 	width:550px; 
 	height:auto;
