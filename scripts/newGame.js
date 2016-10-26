@@ -25,11 +25,11 @@ $(document).ready(function() {
   mapTerm = "Map of Australia";
 
   // game settings
-  categoryName;
-  searchTerms;
-  numTreasures;
-  gameSize;
-  timeLimit;
+  categoryName = "";
+  searchTerms = [];
+  numTreasures = 0;
+  gameSize = 0;
+  timeLimit = 0;
 
   chosenCategoryGameSettings();
   generateMapBackground();
@@ -59,19 +59,19 @@ $(document).ready(function() {
 
   function chosenCategoryGameSettings() {
     var query = window.location.search;
-    categoryName = substring(query.lastIndexOf("=") + 1);
+    categoryName = query.substring(query.lastIndexOf("=") + 1);
 
-    if (category == "atiHeritage") {
+    if (categoryName == "atiHeritage") {
       searchTerms = atiHeritageTerms;
-    } else if (category == "nature") {
+    } else if (categoryName == "nature") {
       searchTerms = natureTerms;
-    } else if (category == "colAus") {
+    } else if (categoryName == "colAus") {
       searchTerms = colAusTerms;
-    } else if (category == "tech") {
+    } else if (categoryName == "tech") {
       searchTerms = techTerms;
-    } else if (category == "nineteenHundreds") {
+    } else if (categoryName == "nineteenHundreds") {
       searchTerms = nineteenHundredsTerms;
-    } else if (category == "art") {
+    } else if (categoryName == "art") {
       searchTerms = artTerms;
     }
 
@@ -93,42 +93,54 @@ $(document).ready(function() {
     $.getJSON(url, function(data) {
       $.each(data.response.zone[0].records.work, processImages);
     }). done (function() {
-
-      var randomIndex = (Math.floor(Math.random() * ))
-    });
-        var randomIndex = (Math.floor(Math.random() * loadedImages.length  - 1));
-        var map = [];
-        map.push(loadedImages[randomIndex]);
-        map.push(names[randomIndex]);
-        map.push(true);
-        map.push(troveLinks[randomIndex]);
-        mapData.push(map);
-        $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
-        mapInfoPopsUp();
+      waitForFlickrToPrintMap();
     });
   };
 
   function waitForFlickrToPrintMap() {
     if(found == loadedImages.length) {
-      pickMapBackground();
+      pickAndDisplayMapBackground();
     } else {
       setTimeout(waitForFlickr, 250);
     }
   }
 
-  function pickMapBackground() {
+  function pickAndDisplayMapBackground() {
     var randomIndex = (Math.floor(Math.random() * found  - 1));
 
     // make sure the picked image is loaded properly
-    while (loadedImages[randomIndex] == null ||
-        names[randomIndex] == null ||
-        troveLinks[randomIndex] == null) {
+    while (typeof loadedImages[randomIndex] == "undefined" ||
+        typeof names[randomIndex] == "undefined" ||
+        typeof troveLinks[randomIndex] == "undefined") {
       randomIndex = (Math.floor(Math.random() * found  - 1));
     }
 
     // construct a map information array
     // index 0:imageURL, 1:name, 2:isTreasure, 3:trovelink
-    while (loadedImages[random])
+    var map = [];
+    map.push(loadedImages[randomIndex]);
+    map.push(names[randomIndex]);
+    map.push(true);
+    map.push(troveLinks[randomIndex]);
+    $("#imagegrid").css({"background-image": "url(" + map[0] + ")"});
+    mapInfoPopsUp(map);
+  }
+
+  // set the more map button to pop up with map info
+  function mapInfoPopsUp(map) {
+    var mapImageUrl = map[0];
+    var mapImageName = map[1];
+    // we dont need mapImage[2] because we dont care about map status
+    var mapImageTroveLink = map[3];
+
+    // alt is the image title
+    $("#moremap").attr("alt", mapImageName);
+
+    // href of the link that contains the image is the popup image
+    $("#moremap").parent().attr("href", mapImageUrl);
+
+    // title of parent link is the description
+    $("#moremap").parent().attr("title", mapImageTroveLink);
   }
 
   //s is the start number, n is the number of results
@@ -205,6 +217,19 @@ $(document).ready(function() {
           // UNCOMMENT FOR DEBUG:
     // console.log("Not available: " + imgUrl);
     }
+  }
+
+  // from http://css-tricks.com/snippets/javascript/get-url-variables/
+  function getQueryVariable(variable, url) {
+      var query = url.split("?");
+      var vars = query[1].split("&");
+      for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+              return pair[1];
+          }
+      }
+      return (false);
   }
 
   function addFlickrItem(imgUrl, troveItem) {
