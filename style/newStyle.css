@@ -91,7 +91,7 @@ div ul li a,visited{color:#000;
 
 
 
-#gray{width:100%;height:100%;background:rgba(0,0,0,0.3);position:fixed;top:0px;display:none;z-index:99;}
+#gray{width:auto;height:auto;background:rgba(0,0,0,0.3);position:fixed;top:0px;display:none;z-index:99;}
 
 
 
@@ -115,8 +115,8 @@ div ul li a,visited{color:#000;
 	opacity: 0.7;
 }
 .popup{
-	width:532px; 
-	height:auto;
+	width:600px; 
+	height:600px;
 	background-color:#fff;
 	position:absolute;
 	z-index:100;
