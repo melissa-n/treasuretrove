@@ -44,6 +44,7 @@ $(document).ready(function() {
   generateMapBackground();
   resetGlobalImageData();
   setTimeout(generateGameImages, 1500);
+  checkOffFoundItems();
 
 myCallbackTest = function() {
   alert('the callback worked! thats a good start!');
@@ -336,13 +337,10 @@ myCallbackTest = function() {
     }
   }
 
-checkOffFoundItems();
-
   function checkOffFoundItems() {
     $(document).on('DOMNodeInserted', function(e) {
       if (e.target.id == 'fullResImage') {
          var clickedImageUrl = $("#fullResImage").attr("src");
-         console.log(clickedImageUrl);
 
          var checkValues = $("#list tbody tr td.check");
          var foundImages = 0;
