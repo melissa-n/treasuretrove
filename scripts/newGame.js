@@ -13,6 +13,11 @@ $(document).ready(function() {
   names = [];
   troveLinks = [];
 
+  timesCalled = 0;
+
+  //map data
+  mapData = [];
+
   // preset search terms for pre-set categories
   atiHeritageTerms = ["Aboriginal", "Torres Strait Islander", "Aboriginal Heritage", "Aboriginal Artefacts", "Aboriginal History"];
   natureTerms = ["Australian Flora", "Australian Fauna", "Environment", "Sustainability", "Natural Resources", "Natural Disasters"];
@@ -34,6 +39,7 @@ $(document).ready(function() {
   chosenCategoryGameSettings();
   generateMapBackground();
   resetGlobalImageData();
+  setTimeout(generateGameImages, 1500);
   // // PRESET CATEGORY CHOSEN
   // if (true) {
   //   chosenCategoryGameSettings();
@@ -93,7 +99,7 @@ $(document).ready(function() {
     $.getJSON(url, function(data) {
       $.each(data.response.zone[0].records.work, processImages);
     }). done (function() {
-      waitForFlickrToPrintMap();
+      pickAndDisplayMapBackground();
     });
   };
 
@@ -101,7 +107,7 @@ $(document).ready(function() {
     if(found == loadedImages.length) {
       pickAndDisplayMapBackground();
     } else {
-      setTimeout(waitForFlickr, 250);
+      setTimeout(waitForFlickrToPrintMap, 250);
     }
   }
 
@@ -114,7 +120,7 @@ $(document).ready(function() {
         typeof troveLinks[randomIndex] == "undefined") {
       randomIndex = (Math.floor(Math.random() * found  - 1));
     }
-
+    var mapData = [];
     // construct a map information array
     // index 0:imageURL, 1:name, 2:isTreasure, 3:trovelink
     var map = [];
@@ -122,8 +128,9 @@ $(document).ready(function() {
     map.push(names[randomIndex]);
     map.push(true);
     map.push(troveLinks[randomIndex]);
-    $("#imagegrid").css({"background-image": "url(" + map[0] + ")"});
-    mapInfoPopsUp(map);
+    mapData.push(map);
+    $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
+    mapInfoPopsUp(mapData[0]);
   }
 
   // set the more map button to pop up with map info
@@ -141,6 +148,111 @@ $(document).ready(function() {
 
     // title of parent link is the description
     $("#moremap").parent().attr("title", mapImageTroveLink);
+  }
+
+  function generateGameImages() {
+    for (var i = 0; i < searchTerms.length; i++) {
+      var url = createURL(searchTerms[i]);
+
+      $.getJSON(url, function(data) {
+        $.each(data.response.zone[0].records.work, processImages);
+      }).done(function() {
+        timesCalled++;
+        if (timesCalled == searchTerms.length) {
+          populateGame();
+        }
+      });
+    }
+  }
+
+  function waitForFlickrToPopulateGame() {
+    if(found == loadedImages.length) {
+      populateGame();
+    } else {
+      setTimeout(waitForFlickrToPopulateGame, 250);
+    }
+  }
+
+  function populateGame() {
+    // if not enough images tell the player to refresh
+    if (!enoughImagesForGame) {
+      window.alert("There were troubles loading your game data :( " +
+        + "Please refresh or pick a different category!");
+    } else {
+      // pick random indices
+      var randomIndices = pickRandomIndices(16);
+      var gameImages = setImages(randomIndices);
+      // populate game
+      console.log(gameImages);
+    }
+  }
+
+  // create the list on screen
+
+  // pick random indices
+  function pickRandomIndices(imagesOnScreen) {
+    var randomIndices = [];
+
+    while (randomIndices.length < imagesOnScreen) {
+      var randomIndex = Math.floor((Math.random() * found) + 1);
+      if ($.inArray(randomIndex, randomIndices) <= -1
+          && typeof loadedImages[randomIndex] != "undefined" &&
+              typeof names[randomIndex] != "undefined" &&
+              typeof troveLinks[randomIndex] != "undefined") {
+        randomIndices.push(randomIndex);
+      }
+    }
+
+    return randomIndices;
+  }
+
+  function setImages(randomIndices) {
+    var gameImages = [];
+
+    // construct a game images information array
+    // index 0:imageURL, 1:name, 2:isTreasure, 3:trovelink
+    for (var i = 0; i < randomIndices.length; i++) {
+      var gameImage = [];
+
+      // url
+      var imageUrl = loadedImages[randomIndices[i]];
+      gameImage.push(imageUrl);
+      //name
+      var imageName = names[randomIndices[i]];
+      gameImage.push(imageName);
+      // on list status
+      if (i < numTreasures) {
+        gameImage.push(true);
+      } else {
+        gameImage.push(false);
+      }
+      // trove link
+      var trovelink = troveLinks[randomIndices[i]];
+      gameImage.push(trovelink);
+
+      gameImages.push(gameImage);
+    }
+
+    return shuffleArray(gameImages);
+  }
+
+  function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+      return array;
+  }
+
+  // true if enough, false if not
+  function enoughImagesForGame() {
+    if (found < gameSize^2) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   //s is the start number, n is the number of results
