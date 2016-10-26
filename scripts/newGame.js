@@ -17,6 +17,10 @@ $(document).ready(function() {
 
   //map data
   mapData = [];
+  // only images to find in game
+  treasureData = [];
+  // all images in game
+  gameImages = [];
 
   // preset search terms for pre-set categories
   atiHeritageTerms = ["Aboriginal", "Torres Strait Islander", "Aboriginal Heritage", "Aboriginal Artefacts", "Aboriginal History"];
@@ -40,6 +44,24 @@ $(document).ready(function() {
   generateMapBackground();
   resetGlobalImageData();
   setTimeout(generateGameImages, 1500);
+
+myCallbackTest = function() {
+  alert('the callback worked! thats a good start!');
+
+  var $activeimage = $("#fullResImage");
+
+  var source = $activeimage.attr('src'), altText = $activeimage.attr('alt');
+
+  if(!$activeimage.length) {
+    alert('The image selector failed');
+  } else if (!source) {
+    alert('The image selector worked, but I found no source');
+  } else if (!altText) {
+    alert('Found The image and its source, but it doesnt seem to have any alt text');
+  } else {
+    alert('i got it! alt: ' + altText + ' src: ' + source);
+  }
+}
   // // PRESET CATEGORY CHOSEN
   // if (true) {
   //   chosenCategoryGameSettings();
@@ -181,10 +203,10 @@ $(document).ready(function() {
     } else {
       // pick random indices
       var randomIndices = pickRandomIndices(gameSize*gameSize);
-      var gameImages = setImages(randomIndices);
+      gameImages = setImages(randomIndices);
       console.log(gameImages);
       // populate game
-      var treasures = createTreasureList(gameImages);
+      treasureData = createTreasureList(gameImages);
       createImageGrid(gameImages);
     }
   }
@@ -243,7 +265,7 @@ $(document).ready(function() {
     var table = $("#list");
 
     for (var i = 0; i < numTreasures; i++) {
-      table.append("<tr><td></td><td></td></tr>");
+      table.append("<tr><td></td><td class='check'></td></tr>");
     }
 
     var tableLineCounter = 0;
@@ -312,6 +334,40 @@ $(document).ready(function() {
 
       $("a[rel^='prettyPhoto']").prettyPhoto();
     }
+  }
+
+checkOffFoundItems();
+
+  function checkOffFoundItems() {
+    $(document).on('DOMNodeInserted', function(e) {
+      if (e.target.id == 'fullResImage') {
+         var clickedImageUrl = $("#fullResImage").attr("src");
+         console.log(clickedImageUrl);
+
+         var checkValues = $("#list tbody tr td.check");
+         var foundImages = 0;
+
+         for (var i = 0; i < treasureData.length; i++) {
+           // if the image url matches
+           if (treasureData[i][0] == clickedImageUrl) {
+             if ($(checkValues[i]).children().length <= 0) {
+               $(checkValues[i]).append("<img class='tick' src='images/tick.png' alt='green tick'>");
+             }
+             break;
+           }
+         }
+
+         for (var i = 0; i < treasureData.length; i++) {
+           if ($(checkValues[i]).children().length > 0) {
+             foundImages++;
+           }
+         }
+
+         if (foundImages == checkValues.length) {
+           window.location = "endGame.html";
+         }
+      }
+    });
   }
 
   function shuffleArray(array) {
