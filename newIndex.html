@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Treasure Trove</title>
+  <!-- <link rel="stylesheet" type="text/css" href="style/style.css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Della+Respira|Pirata+One" rel="stylesheet">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="scripts/jquery-1_8_3.js"></script>
+  <!-- <script>
+  setTimeout(function(){document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
+          },20);
+  </script> -->
+</head>
+
+<body>
+  <div class="pageHeading">
+    <h1>Treasure Trove</h1>
+  </div>
+
+  <div class="container">
+    <div class="option" id="pickCategory">
+      <h2>Pick a Category:</h2>
+      <form action="game.html" id="pickedCategoryForm" method="get">
+        <select name="pickedCategory" id="pickedCategory">
+          <option value="atiHeritage" selected="selected">Aboriginal and
+            Torres Strait Islander Heritage</option>
+          <option value="nature">Nature</option>
+          <option value="colAus">Colonial Australia</option>
+          <option value="tech">Technology</option>
+          <option value="nineteenHundreds">1900s Australia</option>
+          <option value="art">Art, Symbols and Emblems</option>
+        </select>
+        <button type="submit" id="pickedCategorySubmit">Play!</button>
+      </form>
+    </div>
+
+    <h2>OR</h2>
+
+    <div class="option" id="savedCategory">
+      <h2>Play a Previously Made Custom Game</h2>
+      <form action="game.html" id="savedCategory" method="get">
+      	<input type="text" name="savedCategory" id="savedCategory">
+      	<button type="submit" id="savedCategorySubmit">Play!</button>
+      </form>
+    </div>
+
+    <h2>OR</h2>
+
+    <div class="option" id="createCustomGame">
+      <h2>Create a New Custom Game</h2>
+      <form action="game.html" id="customGame" method="get">
+        <p>Name Your Category:</p>
+        <input type="text" name="categoryName" id="categoryName">
+
+        <p>Enter Your Search Terms:</p>
+        <input type="text" name="searchTerm1" id="searchTerm1">
+        <input type="text" name="searchTerm2" id="searchTerm2">
+        <input type="text" name="searchTerm3" id="searchTerm3">
+        <input type="text" name="searchTerm4" id="searchTerm4">
+        <input type="text" name="searchTerm5" id="searchTerm5">
+        <input type="text" name="searchTerm6" id="searchTerm6">
+
+        <p>Choose The Number Of Treasures</p>
+        <select class="setting-NOTreasure-selected">
+          <option value="type" selected="selected">--Number--</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+        </p>
+        <p>Game Size:
+        <select class="setting-NOExtra-selected">
+          <option value="type" selected="selected">--Extras--</option>
+          <option value="3">3x3</option>
+          <option value="4">4x4</option>
+          <option value="5">5x5</option>
+        </select>
+        </p>
+        <p>Time Limit:
+        <select class="setting-time-selected">
+          <option value="type" selected="selected">--Min--</option>
+          <option value="3">3</option>
+          <option value="5">5</option>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+        </p>
+    </div>
+  <div align="center">
+<input type="submit" class="button" value="Play Now!">
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+
+
+</html>
