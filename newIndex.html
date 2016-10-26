@@ -31,7 +31,7 @@
           <option value="nineteenHundreds">1900s Australia</option>
           <option value="art">Art, Symbols and Emblems</option>
         </select>
-        <button type="submit" id="pickedCategorySubmit">Play!</button>
+        <button type="submit" class="button" id="pickedCategorySubmit">Play!</button>
       </form>
     </div>
 
@@ -41,7 +41,7 @@
       <h2>Play a Previously Made Custom Game</h2>
       <form action="game.html" id="savedCategory" method="get">
       	<input type="text" name="savedCategory" id="savedCategory">
-      	<button type="submit" id="savedCategorySubmit">Play!</button>
+      	<button type="submit" class="button" id="savedCategorySubmit">Play!</button>
       </form>
     </div>
 
@@ -62,46 +62,39 @@
         <input type="text" name="searchTerm6" id="searchTerm6">
 
         <p>Choose The Number Of Treasures</p>
-        <select class="setting-NOTreasure-selected">
-          <option value="type" selected="selected">--Number--</option>
+        <select name="numberOfTreasures" id="numberOfTreasures">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-          <option value="6">6</option>
+          <option value="6" selected="selected">6</option>
           <option value="7">7</option>
           <option value="8">8</option>
           <option value="9">9</option>
           <option value="10">10</option>
         </select>
-        </p>
-        <p>Game Size:
-        <select class="setting-NOExtra-selected">
+
+        <p>Choose Game Size:</p>
+        <select name="gameSize" id="gameSize">
           <option value="type" selected="selected">--Extras--</option>
-          <option value="3">3x3</option>
+          <option value="3" selected="selected">3x3</option>
           <option value="4">4x4</option>
           <option value="5">5x5</option>
         </select>
-        </p>
-        <p>Time Limit:
-        <select class="setting-time-selected">
-          <option value="type" selected="selected">--Min--</option>
+
+        <p>Choose Time Limit (Minutes):</p>
+        <select class="timeLimit" id="timeLimit">
           <option value="3">3</option>
-          <option value="5">5</option>
+          <option value="5" selected="selected">5</option>
           <option value="7">7</option>
           <option value="10">10</option>
           <option value="15">15</option>
         </select>
-        </p>
-    </div>
-  <div align="center">
-<input type="submit" class="button" value="Play Now!">
+        <button type="submit" id="customGameSubmit" class="button">Play Now!</buton>
       </form>
     </div>
-
   </div>
-
 </body>
 
 
