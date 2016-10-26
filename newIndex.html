@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css?family=Della+Respira|Pirata+One" rel="stylesheet">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="scripts/jquery-1_8_3.js"></script>
+  <script type="text/javascript" src="scripts/windowMove.js"></script>
+  <script type="text/javascript" src="scripts/windowDisplay.js"></script>
  
 
   <link rel="stylesheet" type="text/css" href="style/newStyle.css">
@@ -51,8 +53,20 @@
     <h2>OR</h2>
 
     <div class="option" id="createCustomGame">
-      <h2>Create a New Custom Game</h2>
-      <form action="game.html" id="customGame" method="get">
+      <a href="#" class="tc"><h2>Create a New Custom Game</h2></a>
+      
+        <div id="gray"></div>
+        <div class="popup" id="popup">
+          <div class="top_nav" id='top_nav'>
+            <div class="customGame">
+              <span>Custom Game</span>
+              <a class="guanbi"></a>
+            </div>
+          </div>
+          <div class="min">
+            <div class="tc_login">
+              <div class="center">
+                <form action="game.html" id="customGame" method="get">
         <p>Name Your Category:</p>
         <input type="text" name="categoryName" id="categoryName">
 
@@ -95,9 +109,14 @@
           <option value="15">15</option>
         </select>
         <button type="submit" id="customGameSubmit" class="button">Play Now!</buton>
-      </form>
+         </form>
+        </div>
+      </div>
     </div>
   </div>
+      
+ </div>
+</div>
 </body>
 
 
