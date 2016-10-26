@@ -45,6 +45,7 @@ $(document).ready(function() {
   resetGlobalImageData();
   setTimeout(generateGameImages, 1500);
   checkOffFoundItems();
+  replacePhotoAfterClicked();
 
 myCallbackTest = function() {
   alert('the callback worked! thats a good start!');
@@ -294,8 +295,8 @@ myCallbackTest = function() {
     var imageGrid = $("#imagegrid");
     var gridImages = [];
     for (var i = 0; i < gameSize*gameSize; i++) {
-      imageGrid.append('<a href="" rel="prettyPhoto" title=""><img id="' + i.toString() + '" class="grid" src="" alt=""/></a>');
-      var image = $("#imagegrid img#" + i.toString());
+      imageGrid.append('<a href="" rel="prettyPhoto" title=""><img id="img' + i.toString() + '" class="grid" src="" alt=""/></a>');
+      var image = $("#imagegrid #img" + i.toString());
       gridImages.push(image);
     }
 
@@ -363,6 +364,46 @@ myCallbackTest = function() {
 
          if (foundImages == checkValues.length) {
            window.location = "endGame.html";
+         }
+      }
+    });
+  }
+
+  function replacePhotoAfterClicked() {
+    $(document).on('DOMNodeInserted', function(e) {
+      if (e.target.id == 'fullResImage') {
+         var clickedImageUrl = $("#fullResImage").attr("src");
+
+         var imageOnScreenValues = [];
+         for (var i = 0; i < gameImages.length; i++) {
+           imageOnScreenValues.push($("#imagegrid #img" + i.toString()));
+         }
+         console.log(imageOnScreenValues);
+
+         for (var i = 0; i < treasureData.length; i++) {
+           // if the image url matches
+           if (treasureData[i][0] == clickedImageUrl) {
+             //console.log(clickedImageUrl);
+             for (var j = 0; j < imageOnScreenValues.length; j++) {
+               var imagesrc = $(imageOnScreenValues[j]).attr("src");
+               //console.log(imagesrc);
+               if (imagesrc == clickedImageUrl) {
+                 $(imageOnScreenValues[j]).attr("src", "images/gold_coin.png");
+                 break;
+               }
+             }
+             break;
+           } else if (i == treasureData.length - 1) {
+             for (var k = 0; k < imageOnScreenValues.length; k++) {
+               var imagesrc = $(imageOnScreenValues[k]).attr("src");
+               //console.log(imagesrc);
+               if (imagesrc == clickedImageUrl) {
+                 $(imageOnScreenValues[k]).attr("src", "images/skull_crossbones.png");
+                 break;
+               }
+             }
+             break;
+           }
          }
       }
     });
