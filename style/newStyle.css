@@ -55,6 +55,9 @@ select, #savedCategory{
 	font-family: 'Della Respira', cursive;
 
 }
+#createCustomGame{
+	float: right;
+}
 .menu-grids{
 	    margin-top: 3em;
 		box-sizing: border-box;
