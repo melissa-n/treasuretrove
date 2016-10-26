@@ -271,7 +271,7 @@ $(document).ready(function() {
     var imageGrid = $("#imagegrid");
     var gridImages = [];
     for (var i = 0; i < gameSize*gameSize; i++) {
-      imageGrid.append("<a href='' rel='prettyPhoto' title=''><img id='" + i.toString() + "' class='grid'/></a>")
+      imageGrid.append('<a href="" rel="prettyPhoto" title=""><img id="' + i.toString() + '" class="grid" src="" alt=""/></a>');
       var image = $("#imagegrid img#" + i.toString());
       gridImages.push(image);
     }
@@ -309,6 +309,8 @@ $(document).ready(function() {
       //if (imageData[j][2]) {
       //    $(gridImages[j]).css({"border": "1px solid red"});
       //}
+
+      $("a[rel^='prettyPhoto']").prettyPhoto();
     }
   }
 
