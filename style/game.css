@@ -28,14 +28,15 @@ h1:first-of-type{
 	margin-left: 50px;
 	display: inline-block;
 }
-#topBanner{
 
-}
 #instructions{
 	position: absolute;
-	top: 150px;
-	right: 200px;
-	font-size: 12pt;
+	top: 180px;
+	right: 100px;
+	padding: 5px;
+	background-color: #f2f2f2;
+	opacity: 0.9;
+
 }
 
 #list{
@@ -45,7 +46,7 @@ h1:first-of-type{
 	display: inline-block;
 	margin:2% 6% 3% 5%;
 	font-family:  'Pompiere', cursive;
-	max-width: 30%;
+	width: 30%;
 
 
 
@@ -55,8 +56,6 @@ h1:first-of-type{
 td {
     padding: 25px 0 25px 0;
     text-align: left;
- 
-
 
 }
 
@@ -67,24 +66,21 @@ td {
 	background-image: url('../images/map.jpg');
 	background-size: 100% 100%;
 	padding: 2%;
-	margin-right: 5%;
-	margin-top: 2%;
+	margin: 5% 5% 8% 0;
 	float: right;
 	display: inline-block;
-	min-width: 500px;
-	max-width: 30%;
-	min-height: 500px;
-	max-height: 20%;
+	min-width: 600px;
+	max-width: 40%;
+	min-height: 600px;
+	max-height: 35%;
 }
 
 .grid{
 	display: inline-block;
     float: left;
-    min-width: 100px;
-    min-height: 100px;
-    max-width: 20%;
-    max-height: 100px;
-    margin: 10px;
+    width: 20%;
+    height: 120px;
+    margin: 1.5%;
     border: 2px solid white;
 }
 
@@ -114,7 +110,7 @@ td {
 }
 
 #moremap{
-	display: inline-block;
+	display: block;
 	float: right;
 	font-size: 30px;
 	margin-right: 50px;
@@ -133,7 +129,7 @@ td {
 	margin-top: 60px;
 	margin-right: 300px;
 	font-family: 'Della Respira', cursive;
-	font-size: 30pt;
+	font-size: 40pt;
 	font-weight: bold;
 
 }
