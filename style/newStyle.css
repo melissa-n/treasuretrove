@@ -29,6 +29,10 @@ a{
 	font-weight: bold;
 	font-size: 20pt;
 }
+.page{
+	overflow: hidden;
+	position: relative;
+}
 .inputbox{
 	width:560px;
 	height:auto;
