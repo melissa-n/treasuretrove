@@ -8,6 +8,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="scripts/jquery-1_8_3.js"></script>
 
+ 
+
   <link rel="stylesheet" type="text/css" href="style/newStyle.css">
   <!-- <script>
   setTimeout(function(){document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
@@ -16,6 +18,14 @@
 </head>
 
 <body>
+
+<div class="page">
+
+<div class="indexAnimation"> 
+<img src="images/pirateWelcome.png" id="pirateWelcome" class="indexWelcome">
+
+<img src="images/pirate.png" id="pirateDown" class="indexWelcome">
+
   <div class="pageHeading">
     <h1>Treasure Trove</h1>
   </div>
@@ -42,16 +52,16 @@
     <div class="option" id="savedCategory">
       <h2>Play a Previously Made Custom Game</h2>
       <form action="game.html" id="savedCategory" method="get">
-      	<input type="text" name="savedCategory" id="savedCategory">
-      	<button type="submit" class="button" id="savedCategorySubmit">Play!</button>
+        <input type="text" name="savedCategory" id="savedCategory">
+        <button type="submit" class="button" id="savedCategorySubmit">Play!</button>
       </form>
     </div>
 
     <h2>OR</h2>
 
-
+    
       <a href="#" class="tc"><h2>Create a New Custom Game</h2></a>
-
+      
         <div id="gray"></div>
         <div class="popup" id="popup">
           <div class="top_nav" id='top_nav'>
@@ -68,10 +78,10 @@
         <input type="text" name="categoryName" id="categoryName"></p>
 
         <p>Enter Your Search Terms:<input type="text" name="searchTerm1" id="searchTerm1">
-	<button type="button" id="add">+</button></p>
+  <button type="button" id="add">+</button></p>
         <div id="inputbox"></div>
-
-
+  
+        
 
         <p>Choose The Number Of Treasures:
         <select name="numberOfTreasures" id="numberOfTreasures">
@@ -111,26 +121,26 @@
     </div>
   </div>
  </div>
+</div>
 
-
-	<script type="text/javascript">
-	var counter = 1;
+  <script type="text/javascript">
+  var counter = 1;
         var add = document.getElementById('add'),
             inputbox = document.getElementById('inputbox');
         add.onclick = function(){
-			if (counter < 9) {
-			   var input = document.createElement("input");
+      if (counter < 9) {
+         var input = document.createElement("input");
                            input.setAttribute('type', 'text')
-			   input.setAttribute('name', 'searchTerm')
-			   input.setAttribute('id', 'searchTerm')
-			   counter += 1;
+         input.setAttribute('name', 'searchTerm')
+         input.setAttribute('id', 'searchTerm')
+         counter += 1; 
                            inputbox.appendChild(input);
                            input.focus();
-			}
+      }
 
-			else{
-				console.log("Can't have any more! :(");
-				}
+      else{
+        console.log("Can't have any more! :(");
+        }
         }
     </script>
   <script type="text/javascript" src="scripts/windowMove.js"></script>
