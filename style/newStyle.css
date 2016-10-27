@@ -283,3 +283,29 @@ div ul li a,visited{color:#000;
 }
 
 
+
+#pirateDown{
+	position: absolute;
+	top:-300px;
+	left: 50px;
+	transition: transform 1000ms ease-in-out;
+	height: 200px;
+
+}
+
+#pirateWelcome{
+	position: absolute;
+	top:-300px;
+	right: 10px;
+	height: 300px;
+	transition: transform 1000ms cubic-bezier(0, 0.47, 0.32, 1.97);
+}
+
+.page:hover #pirateWelcome{
+	transform: translate(0px, 400px);
+}
+
+.page:hover #pirateDown{
+	transform: translate(0px, 220px) rotate(180deg);
+}
+

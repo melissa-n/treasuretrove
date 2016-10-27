@@ -98,3 +98,9 @@
 	transform: translate(-800px,0px);
 }
 
+.treasure{
+	position: absolute;
+	top:60%;
+	right:42%;
+	height:70px;
+}
