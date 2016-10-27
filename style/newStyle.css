@@ -241,9 +241,8 @@ div ul li a,visited{color:#000;
 	display: center;
 }
 #newgame{
-	position: absolute;
-	bottom: 20px;
-	left: 20px;
+	display: inline-block;
+	float: left;
 	font-size: 30px;
 	margin-left: 50px;
 	font-family: 'Pompiere', cursive;
@@ -254,9 +253,8 @@ div ul li a,visited{color:#000;
 	opacity: 0.7;
 }
 #leaderboard{
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
+	display: inline-block;
+	float: right;
 	font-size: 30px;
 	margin-right: 50px;
 	font-family: 'Pompiere', cursive;
