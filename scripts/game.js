@@ -1,117 +1,433 @@
+// this script is adapted form the Trove Image Search deco1800 example:
+// http://deco1800.uqcloud.net/examples/troveImage.php
+
 $(document).ready(function() {
+  // apiKey to access Trove API
+  apiKey = "jsk1qqntnrj7qbvf";
+  // image hosts
+  urlPatterns = ["flickr.com", "nla.gov.au", "artsearch.nga.gov.au", "recordsearch.naa.gov.au", "images.slsa.sa.gov.au"];
 
-  // this script is adapted form the Trove Image Search deco1800 example:
-  // http://deco1800.uqcloud.net/examples/troveImage.php
-  var loadedImages = [];
-  var urlPatterns = ["flickr.com", "nla.gov.au", "artsearch.nga.gov.au", "recordsearch.naa.gov.au", "images.slsa.sa.gov.au"];
-  var found = 0;
-  var apiKey = "jsk1qqntnrj7qbvf";
+  // have to make these global as $.each iterator only takes 2 arguments
+  found = 0;
+  loadedImages = [];
+  names = [];
+  troveLinks = [];
 
-  var atiHeritageTerms = ["Aboriginal", "Torres Strait Islander", "Aboriginal Heritage", "Aboriginal Artefacts", "Aboriginal History"];
-  var natureTerms = ["Australian Flora", "Australian Fauna", "Environment", "Sustainability", "Natural Resources", "Natural Disasters"];
-  var colAusTerms = ["Colonialism", "Settlement", "Post-Colonialism", "Colony"];
-  var techTerms = ["Technology", "Science", "Research", "Development", "Invention"];
-  var nineteenHundredsTerms = ["1900s", "Immigration", "Industrialism", "Development"];
-  var artTerms = ["Australian Flags", "Australian Art", "Aboriginal Art", "Australian Emblems", "Australian Symbols"];
-  var mapTerm = "Map of Australia";
+  timesCalled = 0;
 
-  var query = window.location.search;
-  var category = query.substring(query.lastIndexOf("=") + 1);
-
-  generateMapBackground();
-
-  var loadedImages = [];
-  var found = 0;
-  var names = [];
-  var troveLinks = [];
-
-  imageData = [];
+  //map data
   mapData = [];
+  // only images to find in game
   treasureData = [];
+  // all images in game
+  gameImages = [];
 
-  var searchTerms = [];
+  // preset search terms for pre-set categories
+  atiHeritageTerms = ["Aboriginal", "Torres Strait Islander", "Aboriginal Heritage", "Aboriginal Artefacts", "Aboriginal History"];
+  natureTerms = ["Australian Flora", "Australian Fauna", "Environment", "Sustainability", "Natural Resources", "Natural Disasters"];
+  colAusTerms = ["Colonialism", "Settlement", "Post-Colonialism", "Colony"];
+  techTerms = ["Technology", "Science", "Research", "Development", "Invention"];
+  nineteenHundredsTerms = ["1900s", "Immigration", "Industrialism", "Development"];
+  artTerms = ["Australian Flags", "Australian Art", "Aboriginal Art", "Australian Emblems", "Australian Symbols"];
 
-  var imageIndices = pickRandomIndices(16);
-  var imageStatuses = assignSelectedStatus(imageIndices, 6);
+  // map search term
+  mapTerm = "Map of Australia";
 
-  $('#output').empty();
-  //get input values
-  if (category == "atiHeritage") {
-    searchTerms = atiHeritageTerms;
-  } else if (category == "nature") {
-    searchTerms = natureTerms;
-  } else if (category == "colAus") {
-    searchTerms = colAusTerms;
-  } else if (category == "tech") {
-    searchTerms = techTerms;
-  } else if (category == "nineteenHundreds") {
-    searchTerms = nineteenHundredsTerms;
-  } else if (category == "art") {
-    searchTerms = artTerms;
+  // game settings
+  categoryName = "";
+  searchTerms = [];
+  numTreasures = 0;
+  gameSize = 0;
+  timeLimit = 0;
+
+  chosenCategoryGameSettings();
+  generateMapBackground();
+  resetGlobalImageData();
+  setTimeout(generateGameImages, 1500);
+  checkOffFoundItems();
+  replacePhotoAfterClicked();
+
+  // // PRESET CATEGORY CHOSEN
+  // if (true) {
+  //   chosenCategoryGameSettings();
+  //
+  // // LOADED CATEGORY
+  // } else if {
+  //   chosenCategoryGameSettings();
+  //
+  // // NEW CUSTOM CATEGORY
+  // } else {
+  //   customCategoryGameSettings();
+  // }
+
+  // LOADED CATEGORY
+  // NEW CUSTOM CATEGORY
+
+  function loadGameGameSettings() {
+    //searchTerms make all search term inputs into an array
+    numTreasures = getValue("numberOfTreasures");
+    gameSize = getValue("gameSize");
+    timeLimit = getValue("timeLimit");
   }
 
-  for (i in searchTerms) {
-    console.log(i);
-    var url = createURL(searchTerms[i]);
+  // from http://stackoverflow.com/questions/13470285/how-can-i-pass-values-from-one-html-page-to-another-html-page-using-javascript
+  function getValue(varname) {
+    var url = window.location.href;
+    var qparts = url.split("?");
+
+    if (qparts.length == 1)
+    {
+        return "";
+    }
+    else{
+        var query = qparts[1];
+        var vars = query.split("&");
+        var value = "";
+        for (i=0;i<vars.length;i++)
+        {
+            var parts = vars[i].split("=");
+            if (parts[0] == varname)
+            {
+                value = parts[1];
+                break;
+            }
+        }
+        value = unescape(value);
+
+        // Convert "+"s to " "s
+        value.replace(/\+/g," ");
+        return value;
+    }
+  }
+
+  function resetGlobalImageData() {
+    found = 0;
+    loadedImages = [];
+    names = [];
+    troveLinks = [];
+  }
+
+  function chosenCategoryGameSettings() {
+    var query = window.location.search;
+    categoryName = query.substring(query.lastIndexOf("=") + 1);
+
+    if (categoryName == "atiHeritage") {
+      searchTerms = atiHeritageTerms;
+    } else if (categoryName == "nature") {
+      searchTerms = natureTerms;
+    } else if (categoryName == "colAus") {
+      searchTerms = colAusTerms;
+    } else if (categoryName == "tech") {
+      searchTerms = techTerms;
+    } else if (categoryName == "nineteenHundreds") {
+      searchTerms = nineteenHundredsTerms;
+    } else if (categoryName == "art") {
+      searchTerms = artTerms;
+    }
+
+    numTreasures = 6;
+    gameSize = 4;
+    timeLimit = 5;
+  }
+
+  function loadedCategoryGameSettings() {
+  }
+
+  function customCategoryGameSettings() {
+  }
+
+  // do the api call and process images to generate the map background
+  function generateMapBackground() {
+    var url = createURL(mapTerm);
     //get the JSON information we need to display the images
     $.getJSON(url, function(data) {
+      $.each(data.response.zone[0].records.work, processImages);
+    }). done (function() {
+      pickAndDisplayMapBackground();
+    });
+  };
+
+  function waitForFlickrToPrintMap() {
+    if(found == loadedImages.length) {
+      pickAndDisplayMapBackground();
+    } else {
+      setTimeout(waitForFlickrToPrintMap, 250);
+    }
+  }
+
+  function pickAndDisplayMapBackground() {
+    var randomIndex = (Math.floor(Math.random() * found  - 1));
+
+    // make sure the picked image is loaded properly
+    while (typeof loadedImages[randomIndex] == "undefined" ||
+        typeof names[randomIndex] == "undefined" ||
+        typeof troveLinks[randomIndex] == "undefined") {
+      randomIndex = (Math.floor(Math.random() * found  - 1));
+    }
+    var mapData = [];
+    // construct a map information array
+    // index 0:imageURL, 1:name, 2:isTreasure, 3:trovelink
+    var map = [];
+    map.push(loadedImages[randomIndex]);
+    map.push(names[randomIndex]);
+    map.push(true);
+    map.push(troveLinks[randomIndex]);
+    mapData.push(map);
+    $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
+    mapInfoPopsUp(mapData[0]);
+  }
+
+  // set the more map button to pop up with map info
+  function mapInfoPopsUp(map) {
+    var mapImageUrl = map[0];
+    var mapImageName = map[1];
+    // we dont need mapImage[2] because we dont care about map status
+    var mapImageTroveLink = map[3];
+
+    // alt is the image title
+    $("#moremap").attr("alt", mapImageName);
+
+    // href of the link that contains the image is the popup image
+    $("#moremap").parent().attr("href", mapImageUrl);
+
+    // title of parent link is the description
+    $("#moremap").parent().attr("title", mapImageTroveLink);
+  }
+
+  function generateGameImages() {
+    for (var i = 0; i < searchTerms.length; i++) {
+      var url = createURL(searchTerms[i]);
+
+      $.getJSON(url, function(data) {
         $.each(data.response.zone[0].records.work, processImages);
-        if (i == (searchTerms.length - 1)) {
-        	console.log("a");
-          pickImages(imageIndices, imageStatuses);
-          console.log(imageData);
-          // waitForFlickr();
-          createList();
-          createImageGrid();
+      }).done(function() {
+        timesCalled++;
+        if (timesCalled == searchTerms.length) {
+          populateGame();
         }
-    }).done(function(){
-        if (i == (searchTerms.length - 1) && loadedImages.length) {
+      });
+    }
+  }
 
-          var start = new Date().getTime();
-          var timeout = 10000;
-          var keepGoing = true;
+  function waitForFlickrToPopulateGame() {
+    if(found == loadedImages.length) {
+      populateGame();
+    } else {
+      setTimeout(waitForFlickrToPopulateGame, 250);
+    }
+  }
 
-          var loadedImagesReady = false;
-          while (loadedImagesReady == false && keepGoing) {
-            loadedImagesReady = checkIfLoadedImagesReady();
+  function populateGame() {
+    // if not enough images tell the player to refresh
+    if (!enoughImagesForGame) {
+      window.alert("There were troubles loading your game data :( " +
+        + "Please refresh or pick a different category!");
+    } else {
+      // pick random indices
+      var randomIndices = pickRandomIndices(gameSize*gameSize);
+      gameImages = setImages(randomIndices);
+      console.log(gameImages);
+      // populate game
+      treasureData = createTreasureList(gameImages);
+      window.localStorage.setItem("treasureData", JSON.stringify(treasureData));
+      createImageGrid(gameImages);
+    }
+  }
 
-            var end = new Date().getTime();
-            if ((end - start) >= timeout) {
-              keepGoing = false;
-              window.alert("There were troubles loading your game data :( Please refresh or pick a different category!");
-            }
-          }
+  // create the list on screen
 
-          console.log(loadedImages);
+  // pick random indices
+  function pickRandomIndices(imagesOnScreen) {
+    var randomIndices = [];
 
-          if (loadedImagesReady) {
-            pickImages(imageIndices, imageStatuses);
-            console.log(imageData);
-            // waitForFlickr();
-            createList();
-            createImageGrid();
-          }
+    while (randomIndices.length < imagesOnScreen) {
+      var randomIndex = Math.floor((Math.random() * found) + 1);
+      if ($.inArray(randomIndex, randomIndices) <= -1
+          && typeof loadedImages[randomIndex] != "undefined" &&
+              typeof names[randomIndex] != "undefined" &&
+              typeof troveLinks[randomIndex] != "undefined") {
+        randomIndices.push(randomIndex);
+      }
+    }
+
+    return randomIndices;
+  }
+
+  function setImages(randomIndices) {
+    var gameImages = [];
+
+    // construct a game images information array
+    // index 0:imageURL, 1:name, 2:isTreasure, 3:trovelink
+    for (var i = 0; i < randomIndices.length; i++) {
+      var gameImage = [];
+
+      // url
+      var imageUrl = loadedImages[randomIndices[i]];
+      gameImage.push(imageUrl);
+      //name
+      var imageName = names[randomIndices[i]];
+      gameImage.push(imageName);
+      // on list status
+      if (i < numTreasures) {
+        gameImage.push(true);
+      } else {
+        gameImage.push(false);
+      }
+      // trove link
+      var trovelink = troveLinks[randomIndices[i]];
+      gameImage.push(trovelink);
+
+      gameImages.push(gameImage);
+    }
+
+    return shuffleArray(gameImages);
+  }
+
+  function createTreasureList(gameImages) {
+    var treasures = [];
+    var table = $("#list");
+
+    for (var i = 0; i < numTreasures; i++) {
+      table.append("<tr><td></td><td class='check'></td></tr>");
+    }
+
+    var tableLineCounter = 0;
+    var tableValues = $("#list tr td:first-of-type");
+
+    for (var i = 0; i < gameImages.length; i++) {
+      var isOnList = gameImages[i][2];
+      if (isOnList) {
+
+        var name = gameImages[i][1];
+        if (name.length > 120) {
+          var name = name.slice(0, 117) + "..."
         }
+
+        $(tableValues[tableLineCounter]).replaceWith(name);
+        treasures.push(gameImages[i]);
+
+        tableLineCounter++;
+      }
+    }
+    return treasures;
+  }
+
+  function createImageGrid(gameImages) {
+    var imageGrid = $("#imagegrid");
+    var gridImages = [];
+    for (var i = 0; i < gameSize*gameSize; i++) {
+      imageGrid.append('<a href="" rel="prettyPhoto" title=""><img id="img' + i.toString() + '" class="grid" src="" alt=""/></a>');
+      var image = $("#imagegrid #img" + i.toString());
+      gridImages.push(image);
+    }
+
+    for (var j in gridImages) {
+      var treasureUrl = gameImages[j][0];
+      var treasureName = gameImages[j][1];
+      var treasureStatus = gameImages[j][2];
+      var treasureTroveLink = gameImages[j][3];
+
+      // src for the image itself
+      $(gridImages[j]).attr("src", treasureUrl);
+
+      var popUpComment = "";
+      if (treasureStatus) {
+        popUpComment = "JOLLY GOOD! YOU FOUND: ";
+      } else {
+        popUpComment = "WALK THE PLANK! THAT'S NOT TREASURE: ";
+      }
+
+      // alt is the image title
+      $(gridImages[j]).attr("alt", popUpComment + treasureName);
+
+      // href of the link that contains the image is the popup image
+      $(gridImages[j]).parent().attr("href", treasureUrl);
+
+      // title of the link that contains the image is the title
+      //treasureTroveLinkHtml will make the description a link
+      // doesnt work :(
+      /*
+      var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
+        + treasureTroveLink + "&lt;/a&gt;";*/
+      $(gridImages[j]).parent().attr("title", "<a href=\"" + treasureTroveLink + "\">" + treasureTroveLink + "</a>");
+
+      //if (imageData[j][2]) {
+      //    $(gridImages[j]).css({"border": "1px solid red"});
+      //}
+
+      $("a[rel^='prettyPhoto']").prettyPhoto();
+    }
+  }
+
+  function checkOffFoundItems() {
+    $(document).on('DOMNodeInserted', function(e) {
+      if (e.target.id == 'fullResImage') {
+         var clickedImageUrl = $("#fullResImage").attr("src");
+
+         var checkValues = $("#list tbody tr td.check");
+         var foundImages = 0;
+
+         for (var i = 0; i < treasureData.length; i++) {
+           // if the image url matches
+           if (treasureData[i][0] == clickedImageUrl) {
+             if ($(checkValues[i]).children().length <= 0) {
+               $(checkValues[i]).append("<img class='tick' src='images/tick.png' alt='green tick'>");
+             }
+             break;
+           }
+         }
+
+         for (var i = 0; i < treasureData.length; i++) {
+           if ($(checkValues[i]).children().length > 0) {
+             foundImages++;
+           }
+         }
+
+         if (foundImages == checkValues.length) {
+           window.location = "endGame.html";
+         }
+      }
     });
   }
 
-  function checkIfLoadedImagesReady() {
-    if (loadedImages.length >= 30) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  function replacePhotoAfterClicked() {
+    $(document).on('DOMNodeInserted', function(e) {
+      if (e.target.id == 'fullResImage') {
+         var clickedImageUrl = $("#fullResImage").attr("src");
 
-  playGame();
+         var imageOnScreenValues = [];
+         for (var i = 0; i < gameImages.length; i++) {
+           imageOnScreenValues.push($("#imagegrid #img" + i.toString()));
+         }
+         console.log(imageOnScreenValues);
 
-
-  function waitForFlickr() {
-    if(found == loadedImages.length) {
-      printImages();
-    } else {
-      setTimeout(waitForFlickr, 250);
-    }
+         for (var i = 0; i < treasureData.length; i++) {
+           // if the image url matches
+           if (treasureData[i][0] == clickedImageUrl) {
+             //console.log(clickedImageUrl);
+             for (var j = 0; j < imageOnScreenValues.length; j++) {
+               var imagesrc = $(imageOnScreenValues[j]).attr("src");
+               //console.log(imagesrc);
+               if (imagesrc == clickedImageUrl) {
+                 $(imageOnScreenValues[j]).attr("src", "images/gold_coin.png");
+                 break;
+               }
+             }
+             break;
+           } else if (i == treasureData.length - 1) {
+             for (var k = 0; k < imageOnScreenValues.length; k++) {
+               var imagesrc = $(imageOnScreenValues[k]).attr("src");
+               //console.log(imagesrc);
+               if (imagesrc == clickedImageUrl) {
+                 $(imageOnScreenValues[k]).attr("src", "images/skull_crossbones.png");
+                 break;
+               }
+             }
+             break;
+           }
+         }
+      }
+    });
   }
 
   function shuffleArray(array) {
@@ -124,67 +440,19 @@ $(document).ready(function() {
       return array;
   }
 
-  function pickRandomIndices(numberOnScreen) {
-    randomIndices = [];
-    while (randomIndices.length < numberOnScreen) {
-      randomIndex = Math.floor((Math.random() * 30) + 1);
-      if ($.inArray(randomIndex, randomIndices) <= -1) {
-        randomIndices.push(randomIndex);
-      }
+  // true if enough, false if not
+  function enoughImagesForGame() {
+    if (found < gameSize*gameSize) {
+      return false;
+    } else {
+      return true;
     }
-    return shuffleArray(randomIndices);
   }
 
-  function assignSelectedStatus(array, numberSelected) {
-    selectedValues = [];
-    for (i = 0; i < array.length; i++) {
-      if (i < numberSelected) {
-        selectedValues.push(true);
-      } else {
-        selectedValues.push(false);
-      }
-    }
-    return selectedValues;
-  }
-
-  function pickImages(indicesArray, statusArray) {
-    assignedImages = [];
-    for (i = 0; i < indicesArray.length; i++) {
-      var imageArray = [];
-
-      var randomImageUrl = loadedImages[indicesArray[i]];
-      imageArray.push(randomImageUrl);
-
-      var randomImageName = names[indicesArray[i]];
-      imageArray.push(randomImageName);
-
-      var randomImageStatus = statusArray[i];
-      imageArray.push(randomImageStatus);
-
-      var randomImageTroveLink = troveLinks[indicesArray[i]];
-      imageArray.push(randomImageTroveLink);
-
-      assignedImages.push(imageArray);
-    }
-
-    imageData = shuffleArray(assignedImages);
-    return imageData;
-  }
-
-  function createURL(searchTerm, s, n) {
+  //s is the start number, n is the number of results
+  function createURL(searchTerm) {
     // randomly generate a number for results to start from so that you get different
     // images every time
-    if (s != null) {
-      var randomS = s;
-    } else {
-      var randomS = Math.floor((Math.random() * 50) + 1);
-    }
-
-    if (n != null) {
-      var results = n;
-    } else {
-      var results = 100;
-    }
 
     return "http://api.trove.nla.gov.au/result?key="
       + apiKey
@@ -196,36 +464,13 @@ $(document).ready(function() {
       + "&encoding=json&zone=picture"
       // sort by relevance, and get the top 100 (max)
       + "&sortby=relevance"
-      + "&n=" + results.toString()
+      // number of results
+      + "&n=100"
       // add random start number
-      + "&s=" + randomS.toString()
+      + "&s=0"
       // uri encode the search term
       + "&q=" + encodeURI(searchTerm) + "&callback=?";
   }
-
-  function generateMapBackground() {
-    loadedImages = [];
-    found = 0;
-    names = [];
-    troveLinks = [];
-
-    var url = createURL(mapTerm, 0, 30);
-    //get the JSON information we need to display the images
-    $.getJSON(url, function(data) {
-        console.log(data);
-        $('#output').empty();
-        $.each(data.response.zone[0].records.work, processImages);
-        var randomIndex = (Math.floor(Math.random() * loadedImages.length  - 1));
-        var map = [];
-        map.push(loadedImages[randomIndex]);
-        map.push(names[randomIndex]);
-        map.push(true);
-        map.push(troveLinks[randomIndex]);
-        mapData.push(map);
-        $("#imagegrid").css({"background-image": "url(" + mapData[0][0] + ")"});
-        mapInfoPopsUp();
-    });
-  };
 
   /*
    *   Depending where the image comes from, there is a special way to get that image from the website.
@@ -235,6 +480,7 @@ $(document).ready(function() {
     var imgUrl = troveItem.identifier[0].value;
     var imgName = troveItem.title;
     var imgTroveLink = troveItem.troveUrl;
+
     if (imgUrl.indexOf(urlPatterns[0]) >= 0) { // flickr
       if (addFlickrItem(imgUrl, troveItem)) {
         found++;
@@ -279,6 +525,19 @@ $(document).ready(function() {
     }
   }
 
+  // from http://css-tricks.com/snippets/javascript/get-url-variables/
+  function getQueryVariable(variable, url) {
+      var query = url.split("?");
+      var vars = query[1].split("&");
+      for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+              return pair[1];
+          }
+      }
+      return (false);
+  }
+
   function addFlickrItem(imgUrl, troveItem) {
       var flickr_key = "a4d0bf2f4bde0595521b7bd8317ec428";
       var flickr_secret = "efc7221b694ff55e";
@@ -298,178 +557,4 @@ $(document).ready(function() {
           }
       });
   }
-
-  function createList() {
-    var tableValues = $("#list tr td:first-of-type");
-    var tableLineCounter = 0;
-    for (i in imageData) {
-      var isOnList = imageData[i][2];
-      if (isOnList) {
-        var name = imageData[i][1];
-
-        if (name.length > 120) {
-          var shortenedName = name.slice(0, 117) + "..."
-        } else {
-          var shortenedName = name;
-        }
-        $(tableValues[tableLineCounter]).replaceWith(shortenedName);
-        treasureData.push(imageData[i]);
-
-        tableLineCounter++;
-      }
-    }
-  }
-
-  //&lt;a href=&quot;yourLink.html&quot;&gt;Trade Show Panels - 2011&lt;/a&gt;
-
-  function createImageGrid() {
-    var gridImages = [];
-    for (i = 1; i < 17; i++) {
-      image = $("#imagegrid img#" + i.toString());
-      gridImages.push(image);
-    }
-
-    for (j in gridImages) {
-      var treasureUrl = imageData[j][0];
-      var treasureName = imageData[j][1];
-      var treasureStatus = imageData[j][2];
-      var treasureTroveLink = imageData[j][3];
-
-      // src for the image itself
-      $(gridImages[j]).attr("src", treasureUrl);
-
-      var popUpComment = "";
-      if (treasureStatus) {
-        popUpComment = "JOLLY GOOD! YOU FOUND: ";
-      } else {
-        popUpComment = "WALK THE PLANK! THAT'S NOT TREASURE: ";
-      }
-
-      // alt is the image title
-      $(gridImages[j]).attr("alt", popUpComment + treasureName);
-
-      // href of the link that contains the image is the popup image
-      $(gridImages[j]).parent().attr("href", treasureUrl);
-
-      // title of the link that contains the image is the title
-      //treasureTroveLinkHtml will make the description a link
-      // doesnt work :(
-      /*
-      var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
-        + treasureTroveLink + "&lt;/a&gt;";*/
-      $(gridImages[j]).parent().attr("title", "<a href=\"" + treasureTroveLink + "\">" + treasureTroveLink + "</a>");
-
-      //if (imageData[j][2]) {
-      //    $(gridImages[j]).css({"border": "1px solid red"});
-      //}
-    }
-  }
-
-  function printImages() {
-     // Print out all images
-      for (var i in imageData) {
-          var image = new Image();
-          fullImageName = imageData[i][1];
-          if (fullImageName.length > 100) {
-            var imageName = fullImageName.slice(0, 97) + "..."
-          } else {
-            var imageName = fullImageName;
-          }
-          image.src = imageData[i][0];
-          image.style.display = "inline-block";
-          image.style.width = "48%";
-          image.style.margin = "1%";
-          image.style.verticalAlign = "top";
-
-          $("#output").append(image);
-          if (imageData[i][2]) {
-            image.style.border = "5px solid pink";
-          }
-
-          $("#output").append("</br>" + "Name: " + imageName + "</br>");
-          $("#output").append("</br>" + "Source: " + image.src + "</br>");
-      }
-  }
-
-  // from http://css-tricks.com/snippets/javascript/get-url-variables/
-  function getQueryVariable(variable, url) {
-      var query = url.split("?");
-      var vars = query[1].split("&");
-      for (var i = 0; i < vars.length; i++) {
-          var pair = vars[i].split("=");
-          if (pair[0] == variable) {
-              return pair[1];
-          }
-      }
-      return (false);
-  }
-
-  function imagesIncreaseSize() {
-    $("#imagegrid img").hover(
-      function () {
-        $(this).addClass("over");
-      },
-      function () {
-        $(this).removeClass("over");
-      }
-    );
-  }
-
-  function checkOffFoundItems() {
-    $("#imagegrid img").click(function () {
-      var tableValues = $("#list tr td:first-of-type");
-      var checkValues = $("#list tr td.check");
-      var imageUrl = $(this).attr("src");
-      var found = 0;
-
-      for (i in treasureData) {
-        // if the image url matches
-        if (treasureData[i][0] == imageUrl) {
-          console.log(treasureData[i][1]);
-          if ($(checkValues[i]).children().length <= 0) {
-            $(checkValues[i]).append("<img class='tick' src='images/tick.png' alt='green tick'>");
-          }
-          break;
-        }
-      }
-
-      for (i in treasureData) {
-        if ($(checkValues[i]).children().length > 0) {
-          found++;
-        }
-      }
-
-      if (found == checkValues.length) {
-        window.location = "endGame.html";
-      }
-    });
-  }
-
-  function mapInfoPopsUp() {
-    var mapImage = mapData[0];
-    var mapImageUrl = mapImage[0];
-    var mapImageName = mapImage[1];
-    // we dont need mapImage[2] because we dont care about map status
-    var mapImageTroveLink = mapImage[3];
-
-    // alt is the image title
-    $("#moremap").attr("alt", mapImageName);
-
-    // href of the link that contains the image is the popup image
-    $("#moremap").parent().attr("href", mapImageUrl);
-
-    // title of parent link is the description
-    $("#moremap").parent().attr("title", mapImageTroveLink);
-  }
-
-  function playGame() {
-    // hover over image
-    imagesIncreaseSize();
-
-    // checks if clicked images are on the list - check them off if they are
-    checkOffFoundItems();
-  }
 });
-
-
-

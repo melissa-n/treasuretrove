@@ -1,39 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<link rel="stylesheet" type="text/css" href="style/style.css">
-<link href="https://fonts.googleapis.com/css?family=Della+Respira|Pirata+One" rel="stylesheet">
+  <title>Treasure Trove</title>
+  <!-- <link rel="stylesheet" type="text/css" href="style/style.css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Della+Respira|Pirata+One" rel="stylesheet">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="scripts/jquery-1_8_3.js"></script>
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Treasure Trove</title>
-<script type="text/javascript" src="scripts/jquery-1_8_3.js">
-</script>
-
-<script>
-setTimeout(function(){document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
-        },20);
-</script>
+  <link rel="stylesheet" type="text/css" href="style/newStyle.css">
+  <!-- <script>
+  setTimeout(function(){document.getElementsByTagName('body')[0].style.height = window.innerHeight+'px';
+          },20);
+  </script> -->
 </head>
 
 <body>
-<div id="div1">
-  <h1><centre>Treasure Trove</centre></h1>
-</div>
+  <div class="pageHeading">
+    <h1>Treasure Trove</h1>
+  </div>
 
-<div class="login">
-<form>
-	<h2>Login</h2>
-	<input type="text" name="userID" id="loginText">
-	<button type="submit" id="loginbutton">Login</button>
-</form>
-</div>
-
-<div class="container">
-  <div class="menu-grids">
-
+  <div class="container">
+    <div class="option" id="pickCategory">
       <h2>Pick a Category:</h2>
-      <form action="game.html" id="searchTrove" method="get">
-        <select name="category" id="category">
+      <form action="game.html" id="pickedCategoryForm" method="get">
+        <select name="pickedCategory" id="pickedCategory">
           <option value="atiHeritage" selected="selected">Aboriginal and
             Torres Strait Islander Heritage</option>
           <option value="nature">Nature</option>
@@ -42,125 +33,111 @@ setTimeout(function(){document.getElementsByTagName('body')[0].style.height = wi
           <option value="nineteenHundreds">1900s Australia</option>
           <option value="art">Art, Symbols and Emblems</option>
         </select>
-        <button type="submit" id="searchbtn">Play!</button>
+        <button type="submit" class="button" id="pickedCategorySubmit">Play!</button>
       </form>
+    </div>
 
-      <h2>Or</h2>
+    <h2>OR</h2>
 
-      <a href="#" class="tc"><h2>Create a Custom Game</h2></a>
+    <div class="option" id="savedCategory">
+      <h2>Play a Previously Made Custom Game</h2>
+      <form action="game.html" id="savedCategory" method="get">
+      	<input type="text" name="savedCategory" id="savedCategory">
+      	<button type="submit" class="button" id="savedCategorySubmit">Play!</button>
+      </form>
+    </div>
 
+    <h2>OR</h2>
+
+
+      <a href="#" class="tc"><h2>Create a New Custom Game</h2></a>
+
+        <div id="gray"></div>
+        <div class="popup" id="popup">
+          <div class="top_nav" id='top_nav'>
+            <div class="customGame">
+              <span>Custom Game</span>
+              <a class="guanbi"></a>
+            </div>
+          </div>
+          <div class="min">
+            <div class="tc_login">
+              <div class="center">
+                <form action="game.html" id="customGame" method="get" target="_top">
+        <p>Name Your Category:
+        <input type="text" name="categoryName" id="categoryName"></p>
+
+        <p>Enter Your Search Terms:<input type="text" name="searchTerm1" id="searchTerm1">
+	<button type="button" id="add">+</button></p>
+        <div id="inputbox"></div>
+
+
+
+        <p>Choose The Number Of Treasures:
+        <select name="numberOfTreasures" id="numberOfTreasures">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6" selected="selected">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select></p>
+
+        <p>Choose Game Size:
+        <select name="gameSize" id="gameSize">
+          <option value="type" selected="selected">--Extras--</option>
+          <option value="3" selected="selected">3x3</option>
+          <option value="4">4x4</option>
+          <option value="5">5x5</option>
+        </select></p>
+
+        <p>Choose Time Limit (Minutes):
+        <select class="timeLimit" id="timeLimit">
+          <option value="3">3</option>
+          <option value="5" selected="selected">5</option>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select></p>
+        <button type="submit" id="customGameSubmit" class="button">Play Now!</button>
+
+         </form>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<div id="gray"></div>
-<div class="popup" id="popup">
-
-	<div class="top_nav" id='top_nav'>
-		<div class="customGame">
-			<span>Custom Game</span>
-            <a class="guanbi"></a>
-		</div>
-	</div>
-
-    <div class="min">
-      <div class="tc_login">
-        <div class="center">
-            <form method="POST" name="form_login" id="fm_login" target="_top">
-                <div align="center">
-                    <!--Add YOUR OWN TREASURE(upload)-->
-                    <p>Name Your Category:<br></p>
-                    <input type="text" name="categoryName">
-					
-                    <p>Key Search Terms<br></p>
-                    <input type="text" name="searchTerm">
-                    
-                    
-                    <p>Number of Treasure:
-                    <select class="setting-NOTreasure-selected">
-                      <option value="type" selected="selected">--Number--</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                    </select>
-                    </p>
-                    <p>Game Size:
-                    <select class="setting-NOExtra-selected">
-                      <option value="type" selected="selected">--Extras--</option>
-                      <option value="3">3x3</option>
-                      <option value="4">4x4</option>
-                      <option value="5">5x5</option>
-                    </select>
-                    </p>
-                    <p>Time Limit:
-                    <select class="setting-time-selected">
-                      <option value="type" selected="selected">--Min--</option>
-                      <option value="3">3</option>
-                      <option value="5">5</option>
-                      <option value="7">7</option>
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                    </select>
-                    </p>
-                </div>
-              <div align="center">
-						<input type="submit" class="button" value="Play Now!">
-			  </div>
-          </form>
-        </div>
-      </div>
-    </div>
-</div>
-
-<div>
- <a href="#" class="ac">How to Play?</a>
- <div class="popfoot" id="popfoot">
-	<div class="ftop_nav" id='fttop_nav'>
-
-			<span>How to Play?
-      <br>
-
-        <p>1. Select either a category or custom game</p>
-        <p>2.  Press PLAY!</p>
-        <p>3.  You will be given a list of treasures that corresponds to some of the<br> images on your treasure map.</p>
-        <p>4.  Find each treasure by clicking on the correct image </p>
-        <p>5.  Do this and become the Capitan of Treasure Trove </p>
-        <h2>Happy Hunting</h2>
-</span>
-            <a class="close"></a>
-
-	</div>
-    <div class="ftbody">
-      <div class="ac_login">
-        <div class="acenter">
-            <form name="form_detail" id="fm_login" target="_ftop">
-                <div align="left">
-                <!--content-->
-                </div>
-            </form>
-        </div>
-      </div>
-    </div>
  </div>
-</div>
 
 
+	<script type="text/javascript">
+	var counter = 1;
+        var add = document.getElementById('add'),
+            inputbox = document.getElementById('inputbox');
+        add.onclick = function(){
+			if (counter < 9) {
+			   var input = document.createElement("input");
+                           input.setAttribute('type', 'text')
+			   input.setAttribute('name', 'searchTerm')
+			   input.setAttribute('id', 'searchTerm')
+			   counter += 1;
+                           inputbox.appendChild(input);
+                           input.focus();
+			}
 
-
-
-
-<script type="text/javascript" src="scripts/windowDisplay.js">
-</script>
-
-<script type="text/javascript" src="scripts/windowMove.js">
-</script>
-
-
+			else{
+				console.log("Can't have any more! :(");
+				}
+        }
+    </script>
+  <script type="text/javascript" src="scripts/windowMove.js"></script>
+  <script type="text/javascript" src="scripts/windowDisplay.js"></script>
 
 </body>
+
+
+
 </html>
