@@ -47,23 +47,6 @@ $(document).ready(function() {
   checkOffFoundItems();
   replacePhotoAfterClicked();
 
-myCallbackTest = function() {
-  alert('the callback worked! thats a good start!');
-
-  var $activeimage = $("#fullResImage");
-
-  var source = $activeimage.attr('src'), altText = $activeimage.attr('alt');
-
-  if(!$activeimage.length) {
-    alert('The image selector failed');
-  } else if (!source) {
-    alert('The image selector worked, but I found no source');
-  } else if (!altText) {
-    alert('Found The image and its source, but it doesnt seem to have any alt text');
-  } else {
-    alert('i got it! alt: ' + altText + ' src: ' + source);
-  }
-}
   // // PRESET CATEGORY CHOSEN
   // if (true) {
   //   chosenCategoryGameSettings();
@@ -79,6 +62,43 @@ myCallbackTest = function() {
 
   // LOADED CATEGORY
   // NEW CUSTOM CATEGORY
+
+  function loadGameGameSettings() {
+    //searchTerms make all search term inputs into an array
+    numTreasures = getValue("numberOfTreasures");
+    gameSize = getValue("gameSize");
+    timeLimit = getValue("timeLimit");
+  }
+
+  // from http://stackoverflow.com/questions/13470285/how-can-i-pass-values-from-one-html-page-to-another-html-page-using-javascript
+  function getValue(varname) {
+    var url = window.location.href;
+    var qparts = url.split("?");
+
+    if (qparts.length == 1)
+    {
+        return "";
+    }
+    else{
+        var query = qparts[1];
+        var vars = query.split("&");
+        var value = "";
+        for (i=0;i<vars.length;i++)
+        {
+            var parts = vars[i].split("=");
+            if (parts[0] == varname)
+            {
+                value = parts[1];
+                break;
+            }
+        }
+        value = unescape(value);
+
+        // Convert "+"s to " "s
+        value.replace(/\+/g," ");
+        return value;
+    }
+  }
 
   function resetGlobalImageData() {
     found = 0;
