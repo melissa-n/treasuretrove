@@ -114,17 +114,25 @@
   </div>
  </div>
   
-   <script type="text/javascript">
+
+	<script type="text/javascript">
+	var counter = 1;
         var add = document.getElementById('add'),
-            inputbox = document.getElementById('inputbox');
+            inputbox = document.getElementById('incontainer');
         add.onclick = function(){
-           var input = document.createElement("input");
-               input.setAttribute('type', 'text')
+			if (counter < 8) {
+			   var input = document.createElement("input");
+                           input.setAttribute('type', 'text')
 			   input.setAttribute('name', 'searchTerm')
 			   input.setAttribute('id', 'searchTerm')
-			   
-            inputbox.appendChild(input);
-            input.focus();
+			   counter += 1; 
+                           inputbox.appendChild(input);
+                           input.focus();
+			}
+
+			else{
+				console.log("Can't have any more! :(");
+				}
         }
     </script>
   <script type="text/javascript" src="scripts/windowMove.js"></script>
