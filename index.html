@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="scripts/jquery-1_8_3.js"></script>
 
- 
+
 
   <link rel="stylesheet" type="text/css" href="style/newStyle.css">
   <!-- <script>
@@ -21,7 +21,7 @@
 
 <div class="page">
 
-<div class="indexAnimation"> 
+<div class="indexAnimation">
 <img src="images/pirateWelcome.png" id="pirateWelcome" class="indexWelcome">
 
 <img src="images/pirate.png" id="pirateDown" class="indexWelcome">
@@ -59,9 +59,9 @@
 
     <h2>OR</h2>
 
-    
+
       <a href="#" class="tc"><h2>Create a New Custom Game</h2></a>
-      
+
         <div id="gray"></div>
         <div class="popup" id="popup">
           <div class="top_nav" id='top_nav'>
@@ -80,8 +80,8 @@
         <p>Enter Your Search Terms:<input type="text" name="searchTerm1" id="searchTerm1">
   <button type="button" id="add">+</button></p>
         <div id="inputbox"></div>
-  
-        
+
+
 
         <p>Choose The Number Of Treasures:
         <select name="numberOfTreasures" id="numberOfTreasures">
@@ -106,7 +106,7 @@
         </select></p>
 
         <p>Choose Time Limit (Minutes):
-        <select class="timeLimit" id="timeLimit">
+        <select class="timeLimit" id="timeLimit" name="timeLimit">
           <option value="3">3</option>
           <option value="5" selected="selected">5</option>
           <option value="7">7</option>
@@ -120,6 +120,15 @@
       </div>
     </div>
   </div>
+
+<h2>OR<h2>
+  <form action="insertdb.php" method="POST">
+    <h2> ENTER YOUR NAME:</h2>
+    <input type="text" name="input1" id="loginText">
+    <button type="submit" id="loginbutton">ENTER</button>
+  </form>
+
+
  </div>
 </div>
 
@@ -133,7 +142,7 @@
                            input.setAttribute('type', 'text')
          input.setAttribute('name', 'searchTerm')
          input.setAttribute('id', 'searchTerm')
-         counter += 1; 
+         counter += 1;
                            inputbox.appendChild(input);
                            input.focus();
       }
