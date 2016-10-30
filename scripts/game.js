@@ -13,11 +13,13 @@ $(document).ready(function() {
   names = [];
   troveLinks = [];
 
+  // variable so that some code only gets run on the last iteration of the getJson API calls in the for loop
+  // in generateGameImages method
   timesCalled = 0;
 
   //map data
   mapData = [];
-  // only images to find in game
+  // only images to find in game (the ones that appear on the treasure list scroll)
   treasureData = [];
   // all images in game
   gameImages = [];
@@ -40,19 +42,15 @@ $(document).ready(function() {
   gameSize = 0;
   timeLimit = 0;
 
-  chosenCategoryGameSettings();
-  generateMapBackground();
-  resetGlobalImageData();
-  setTimeout(generateGameImages, 1500);
-  checkOffFoundItems();
-  replacePhotoAfterClicked();
-
+  // ideally, if the website was fully functioning the first method called here would depend on which
+  // form was submitted from index.html (chosen category, loaded custom game, or new custom game)
+  // e.g.
   // // PRESET CATEGORY CHOSEN
-  // if (true) {
+  // if () {
   //   chosenCategoryGameSettings();
   //
   // // LOADED CATEGORY
-  // } else if {
+  // } else if () {
   //   chosenCategoryGameSettings();
   //
   // // NEW CUSTOM CATEGORY
@@ -60,9 +58,14 @@ $(document).ready(function() {
   //   customCategoryGameSettings();
   // }
 
-  // LOADED CATEGORY
-  // NEW CUSTOM CATEGORY
+  chosenCategoryGameSettings();
+  generateMapBackground();
+  resetGlobalImageData();
+  setTimeout(generateGameImages, 1500);
+  checkOffFoundItems();
+  replacePhotoAfterClicked();
 
+  // method was created to get game settings from a non preset category game option
   function loadGameGameSettings() {
     //searchTerms make all search term inputs into an array
     numTreasures = getValue("numberOfTreasures");
@@ -71,6 +74,7 @@ $(document).ready(function() {
   }
 
   // from http://stackoverflow.com/questions/13470285/how-can-i-pass-values-from-one-html-page-to-another-html-page-using-javascript
+  // gets the value from the get form method when moving from index.html to game.html to load game settngs
   function getValue(varname) {
     var url = window.location.href;
     var qparts = url.split("?");
@@ -100,6 +104,8 @@ $(document).ready(function() {
     }
   }
 
+// both the map and game images use the same global variables so they must be cleared and reset
+// after the map is loaded so that the game images do not contain map data
   function resetGlobalImageData() {
     found = 0;
     loadedImages = [];
@@ -107,6 +113,7 @@ $(document).ready(function() {
     troveLinks = [];
   }
 
+// the user chose to pick a pre-selected category
   function chosenCategoryGameSettings() {
     var query = window.location.search;
     categoryName = query.substring(query.lastIndexOf("=") + 1);
@@ -125,9 +132,10 @@ $(document).ready(function() {
       searchTerms = artTerms;
     }
 
+    // default settings
     numTreasures = 6;
     gameSize = 4;
-    timeLimit = 5;
+    timeLimit = 1.5;
   }
 
   function loadedCategoryGameSettings() {
@@ -147,6 +155,7 @@ $(document).ready(function() {
     });
   };
 
+  // make sure all the flickr images are loaded
   function waitForFlickrToPrintMap() {
     if(found == loadedImages.length) {
       pickAndDisplayMapBackground();
@@ -155,6 +164,7 @@ $(document).ready(function() {
     }
   }
 
+  // once all the images are loaded, load the page data
   function pickAndDisplayMapBackground() {
     var randomIndex = (Math.floor(Math.random() * found  - 1));
 
@@ -191,9 +201,10 @@ $(document).ready(function() {
     $("#moremap").parent().attr("href", mapImageUrl);
 
     // title of parent link is the description
-    $("#moremap").parent().attr("title", mapImageTroveLink);
+    $("#moremap").parent().attr("title", "<a href=\"" + mapImageTroveLink + "\">" + mapImageTroveLink + "</a>");
   }
 
+  // makes api calls with each of the search terms
   function generateGameImages() {
     for (var i = 0; i < searchTerms.length; i++) {
       var url = createURL(searchTerms[i]);
@@ -201,6 +212,7 @@ $(document).ready(function() {
       $.getJSON(url, function(data) {
         $.each(data.response.zone[0].records.work, processImages);
       }).done(function() {
+        // only populate the game after the last api call
         timesCalled++;
         if (timesCalled == searchTerms.length) {
           populateGame();
@@ -234,9 +246,7 @@ $(document).ready(function() {
     }
   }
 
-  // create the list on screen
-
-  // pick random indices
+  // pick random indices for random images
   function pickRandomIndices(imagesOnScreen) {
     var randomIndices = [];
 
@@ -253,6 +263,7 @@ $(document).ready(function() {
     return randomIndices;
   }
 
+// pick the images to be used in the game
   function setImages(randomIndices) {
     var gameImages = [];
 
@@ -279,10 +290,10 @@ $(document).ready(function() {
 
       gameImages.push(gameImage);
     }
-
     return shuffleArray(gameImages);
   }
 
+  // creates the list on the scroll
   function createTreasureList(gameImages) {
     var treasures = [];
     var table = $("#list");
@@ -298,6 +309,7 @@ $(document).ready(function() {
       var isOnList = gameImages[i][2];
       if (isOnList) {
 
+        // replace long names
         var name = gameImages[i][1];
         if (name.length > 120) {
           var name = name.slice(0, 117) + "..."
@@ -312,6 +324,7 @@ $(document).ready(function() {
     return treasures;
   }
 
+  // create the image grid displayed
   function createImageGrid(gameImages) {
     var imageGrid = $("#imagegrid");
     var gridImages = [];
@@ -344,22 +357,17 @@ $(document).ready(function() {
       $(gridImages[j]).parent().attr("href", treasureUrl);
 
       // title of the link that contains the image is the title
-      //treasureTroveLinkHtml will make the description a link
-      // doesnt work :(
-      /*
-      var linkHtml = "&lt;a href=&quot;" + treasureTroveLink + "&quot;&gt;"
-        + treasureTroveLink + "&lt;/a&gt;";*/
+      //treasureTroveLinkHtml
       $(gridImages[j]).parent().attr("title", "<a href=\"" + treasureTroveLink + "\">" + treasureTroveLink + "</a>");
 
-      //if (imageData[j][2]) {
-      //    $(gridImages[j]).css({"border": "1px solid red"});
-      //}
-
+      // activate pretty photo
       $("a[rel^='prettyPhoto']").prettyPhoto();
     }
   }
 
   function checkOffFoundItems() {
+    // pretty photo takes over event handler so cant use .click function :( had  to see if a
+    //  pretty photo image was presented on screen
     $(document).on('DOMNodeInserted', function(e) {
       if (e.target.id == 'fullResImage') {
          var clickedImageUrl = $("#fullResImage").attr("src");
@@ -367,6 +375,7 @@ $(document).ready(function() {
          var checkValues = $("#list tbody tr td.check");
          var foundImages = 0;
 
+         // add tick picture next to found images
          for (var i = 0; i < treasureData.length; i++) {
            // if the image url matches
            if (treasureData[i][0] == clickedImageUrl) {
@@ -390,6 +399,8 @@ $(document).ready(function() {
     });
   }
 
+  // replace the photow with a coin if they got it right and skull and crossbones
+  // if they got it wrong
   function replacePhotoAfterClicked() {
     $(document).on('DOMNodeInserted', function(e) {
       if (e.target.id == 'fullResImage') {
@@ -430,6 +441,7 @@ $(document).ready(function() {
     });
   }
 
+// shuffle an array
   function shuffleArray(array) {
       for (var i = array.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
@@ -449,7 +461,6 @@ $(document).ready(function() {
     }
   }
 
-  //s is the start number, n is the number of results
   function createURL(searchTerm) {
     // randomly generate a number for results to start from so that you get different
     // images every time
