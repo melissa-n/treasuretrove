@@ -1,11 +1,8 @@
+
+
 /** End game style */
 
-#chest{
-	display: block;
-	margin: auto;
-	position: relative;
-	display: center;
-}
+
 #newgame{
 	display: inline-block;
 	float: left;
@@ -30,6 +27,8 @@
 	padding: 5px 10px 5px 10px;
 	opacity: 0.7;
 }
+
+
 .endGame{
 	overflow: hidden;
 	position: relative;
