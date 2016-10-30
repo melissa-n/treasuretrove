@@ -28,4 +28,4 @@ var timer = null;
 
     aInput.click();
     aInput.style.display="none";
-}
+  }
