@@ -29,10 +29,12 @@ a{
 	font-weight: bold;
 	font-size: 20pt;
 }
+/** hide all animations off the page */
 .page{
 	overflow: hidden;
 	position: relative;
 }
+
 .inputbox{
 	width:560px;
 	height:auto;
@@ -52,7 +54,7 @@ a{
   
 }
 
-
+/** style form inputs */
 select, #savedCategory{
 	font-size: 16pt;
 	font-family: 'Della Respira', cursive;
@@ -73,6 +75,7 @@ select, #savedCategory{
 		height: auto !important;
 		}
 	
+/** popup size and style */ 
 div{font-size:20px;
 	text-align:center;
 	
@@ -236,54 +239,8 @@ div ul li a,visited{color:#000;
 	padding:0 50px 0 50px;
 	font-weight: bold;
 }
-/*End game edit */
 
-#chest{
-	display: block;
-	margin: auto;
-	position: relative;
-	display: center;
-}
-#newgame{
-	display: inline-block;
-	float: left;
-	font-size: 30px;
-	margin-left: 50px;
-	font-family: 'Pompiere', cursive;
-	text-decoration: none;
-	color: black;
-	background-color: white;
-	padding: 5px 10px 5px 10px;
-	opacity: 0.7;
-}
-#leaderboard{
-	display: inline-block;
-	float: right;
-	font-size: 30px;
-	margin-right: 50px;
-	font-family: 'Pompiere', cursive;
-	text-decoration: none;
-	color: black;
-	background-color: white;
-	padding: 5px 10px 5px 10px;
-	opacity: 0.7;
-}
-.leaderboard1{
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	font-family: 'Pompiere', cursive;
-	font-size: 30pt;
-	font-weight: bold;
-}
-
-.endGame{
-	overflow: hidden;
-	position: relative;
-}
-
-
-
+/** initial position of pirate with animation elements*/
 #pirateDown{
 	position: absolute;
 	top:-300px;
@@ -292,7 +249,7 @@ div ul li a,visited{color:#000;
 	height: 200px;
 
 }
-
+/** initial position of pirate with animation elements*/
 #pirateWelcome{
 	position: absolute;
 	top:-300px;
@@ -300,7 +257,7 @@ div ul li a,visited{color:#000;
 	height: 300px;
 	transition: transform 1000ms cubic-bezier(0, 0.47, 0.32, 1.97);
 }
-
+/* on page hover initialise animations*/
 .page:hover #pirateWelcome{
 	transform: translate(0px, 400px);
 }
